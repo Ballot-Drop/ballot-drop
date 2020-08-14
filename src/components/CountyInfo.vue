@@ -1,7 +1,7 @@
 <template>
   <div>
     County info
-    <select v-model="selectedCounty">
+    <select v-model="selectedCounty" v-bind:selected=selectedCounty>
       <option
           v-for="(county, index) in counties"
           :key="index"
@@ -19,45 +19,24 @@
 export default {
   name: 'CountyInfo',
   props: {
-    stateName: {
-      type: String,
+    counties: {
+      type: Array,
       required: true
     }
 
   },
   data: function(){
     return {
-      counties: [],
       selectedCounty: null
     }
   },
   methods: {
-    getCountyData() {
-      const Airtable = require('airtable');
-      const base = new Airtable({apiKey: process.env.VUE_APP_AIRTABLE_API_KEY}).base('appUkL89RMW3J7G5t');
-      const county_data = [];
-      base('County Drop Off Information').select({
-        filterByFormula: `State="${this.stateName}"`,
-        sort: [
-          {field: 'County', direction: 'asc'}
-        ]
-      }).eachPage(function page(records, fetchNextPage) {
-        records.forEach(function (record) {
-          county_data.push(record.fields)
-        });
-        fetchNextPage();
-      }, function done(err) {
-        if (err) {
-          console.error(err);
-          return;
-        }
-      });
-      this.counties = county_data;
 
-    }
   },
-  mounted() {
-    this.getCountyData();
+  watch: {
+    counties: function(){
+      this.selectedCounty = 0;
+    }
   }
 }
 </script>

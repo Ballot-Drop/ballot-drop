@@ -10,7 +10,7 @@
             :link="state[question.link]"
         />
 
-        <CountyInfo :state-name='state["State/Territory"]' />
+        <CountyInfo v-if=state :counties=counties />
       </span>
     </div>
 </template>
@@ -25,6 +25,10 @@ export default {
     state: {
       type: Object,
       required: false
+    },
+    counties: {
+      type: Array,
+      required: false
     }
   },
   data: function(){
@@ -36,7 +40,8 @@ export default {
         {q: "Absentee Ballot Voting Deadline", a: "Absentee Ballot Deadline"}
       ]
     }
-  }
+  },
+
 }
 </script>
 

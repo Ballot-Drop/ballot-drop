@@ -2,7 +2,7 @@
   <div>
     Worried about the post office delivering your ballot on time?<br />
     Pick your state:
-    <select v-model="selectedState">
+    <select v-model="selectedState" @change="getCountyData()">
       <option
           v-for="(state, index) in states"
           :key="index"
@@ -10,7 +10,11 @@
       >{{ state["State/Territory"] }}</option>
     </select>
     <hr />
-    <StateData v-if="selectedState" :state=states[selectedState]></StateData>
+    <StateData
+        v-if="selectedState"
+        :state=states[selectedState]
+        :counties="counties"
+    />
   </div>
 </template>
 
@@ -27,7 +31,33 @@ export default {
   },
   data: function(){
     return {
-      selectedState: null
+      selectedState: null,
+      counties: [{},],
+    }
+  },
+  methods: {
+    getCountyData() {
+      const Airtable = require('airtable');
+      const base = new Airtable({apiKey: process.env.VUE_APP_AIRTABLE_API_KEY}).base('appUkL89RMW3J7G5t');
+      const county_data = [{}, ];
+      base('County Drop Off Information').select({
+        filterByFormula: `State="${this.states[this.selectedState]['State/Territory']}"`,
+        sort: [
+          {field: 'County', direction: 'asc'}
+        ]
+      }).eachPage(function page(records, fetchNextPage) {
+        records.forEach(function (record) {
+          county_data.push(record.fields)
+        });
+        fetchNextPage();
+      }, function done(err) {
+        if (err) {
+          console.error(err);
+          return;
+        }
+      });
+      this.counties = county_data;
+
     }
   }
 }
