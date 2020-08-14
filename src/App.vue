@@ -1,17 +1,36 @@
 <template>
   <div id="app">
     <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <BallotDrop
+        msg="Ballot Drop"
+        :states=states
+    />
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
+import BallotDrop from './components/BallotDrop.vue'
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    BallotDrop
+  },
+  data: function() {
+    return {
+      states: [
+        {id: 0, name:"", start_time:"", end_time:"", locations_link:""},
+        {id: 1, name:"Alabama", start_time:"4pm", end_time:"6pm", locations_link:"alabama_url"},
+        {id: 2, name: "Colorado", start_time:"12am", end_time:"12am", locations_link:"colorado_url"}
+        ]
+    }
+  },
+  mounted() {
+    this.getData();
+  },
+  methods: {
+    getData: function() {
+      console.log('got data');
+    }
   }
 }
 </script>
