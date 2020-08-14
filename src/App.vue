@@ -9,7 +9,16 @@
 </template>
 
 <script>
+// import dotenv from 'dotenv';
+
+// require('dotenv').config({ debug: process.env.DEBUG })
+console.log(process.env.AIRTABLE_API_KEY);
+// const config = dotenv.config()
+// if(config.error){
+//   console.log('Could not load env file', config.error)
+// }
 import BallotDrop from './components/BallotDrop.vue'
+// import Airtable from 'airtable'
 export default {
   name: 'App',
   components: {
@@ -17,11 +26,7 @@ export default {
   },
   data: function() {
     return {
-      states: [
-        {id: 0, name:"", start_time:"", end_time:"", locations_link:""},
-        {id: 1, name:"Alabama", start_time:"4pm", end_time:"6pm", locations_link:"alabama_url"},
-        {id: 2, name: "Colorado", start_time:"12am", end_time:"12am", locations_link:"colorado_url"}
-        ]
+      states: []
     }
   },
   mounted() {
@@ -29,7 +34,25 @@ export default {
   },
   methods: {
     getData: function() {
-      console.log('got data');
+      console.log(process.env);
+      const Airtable = require('airtable');
+      const base = new Airtable({apiKey: process.env.AIRTABLE_API_KEY}).base('appUkL89RMW3J7G5t');
+      const state_data = [];
+      base('State Absentee Voting Data').select({
+        sort: [
+          {field: 'State/Territory', direction:'asc'}
+        ]
+      }).eachPage(function page(records, fetchNextPage) {
+        records.forEach(function(record) {
+          state_data.push(record.fields);
+        });
+        fetchNextPage();
+      }, function done(err){
+        if(err){console.error(err); return;}
+        console.log(state_data)
+      });
+      this.states = state_data;
+
     }
   }
 }

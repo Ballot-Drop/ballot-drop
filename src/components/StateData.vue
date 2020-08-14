@@ -1,15 +1,23 @@
 <template v-if=state>
     <div>
-      <h2>{{state.name}}</h2>
+      <h2>{{state["State/Territory"]}}</h2>
       <span class="meat-and-potatoes">
-        Your election official accepts ballots from <span id="timeStart">{{state.start_time}}</span>-<span id="timeEnd">{{state.end_time}}</span> at <span id="address"></span>.
-        Drop off boxes are located at <span id="url">{{state.locations_link}}</span>.</span>
+        <QA class="qa"
+            v-for="(question, index) in questions"
+            v-bind:key="index"
+            :question=question.q
+            :answer="state[question.a]"
+            :link="state[question.link]"
+        />
+      </span>
     </div>
 </template>
 
 <script>
+import QA from "@/components/QA";
 export default {
   name: 'StateData',
+  components: {QA},
   props: {
     state: {
       type: Object,
@@ -18,7 +26,12 @@ export default {
   },
   data: function(){
     return {
-      // selectedState: null
+      questions: [
+        {q: "Absentee voting", a: "Absentee Voting Status"},
+        {q: "Absentee Ballot Application Deadline", a: "Absentee Application Deadline"},
+        {q: "How to Apply for Absentee Ballot", a: "How to Apply for Absentee Ballot", link:"Application Link"},
+        {q: "Absentee Ballot Voting Deadline", a: "Absentee Ballot Deadline"}
+      ]
     }
   }
 }
@@ -29,18 +42,8 @@ export default {
 .meat-and-potatoes {
   font-size: 24px;
 }
-/*h3 {*/
-/*  margin: 40px 0 0;*/
-/*}*/
-/*ul {*/
-/*  list-style-type: none;*/
-/*  padding: 0;*/
-/*}*/
-/*li {*/
-/*  display: inline-block;*/
-/*  margin: 0 10px;*/
-/*}*/
-/*a {*/
-/*  color: #42b983;*/
-/*}*/
+.qa {
+  display: block;
+  margin-bottom: 25px;
+}
 </style>

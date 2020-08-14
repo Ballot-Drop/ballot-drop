@@ -4,10 +4,10 @@
     Pick your state:
     <select v-model="selectedState">
       <option
-          v-for="state in states"
-          :key="state.id"
-          :value="state.id"
-      >{{ state.name }}</option>
+          v-for="(state, index) in states"
+          :key="index"
+          :value="index"
+      >{{ state["State/Territory"] }}</option>
     </select>
     <hr />
     <StateData v-if="selectedState" :state=states[selectedState]></StateData>
@@ -38,18 +38,4 @@ export default {
 .meat-and-potatoes {
   font-size: 24px;
 }
-/*h3 {*/
-/*  margin: 40px 0 0;*/
-/*}*/
-/*ul {*/
-/*  list-style-type: none;*/
-/*  padding: 0;*/
-/*}*/
-/*li {*/
-/*  display: inline-block;*/
-/*  margin: 0 10px;*/
-/*}*/
-/*a {*/
-/*  color: #42b983;*/
-/*}*/
 </style>
