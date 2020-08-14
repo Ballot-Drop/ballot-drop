@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
+    <img alt="Be Safe and Vote" src="./assets/be_safe_and_vote.png">
     <BallotDrop
         msg="Ballot Drop"
         :states=states
