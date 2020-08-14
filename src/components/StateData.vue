@@ -9,15 +9,18 @@
             :answer="state[question.a]"
             :link="state[question.link]"
         />
+
+        <CountyInfo :state-name='state["State/Territory"]' />
       </span>
     </div>
 </template>
 
 <script>
 import QA from "@/components/QA";
+import CountyInfo from "@/components/CountyInfo";
 export default {
   name: 'StateData',
-  components: {QA},
+  components: {QA, CountyInfo},
   props: {
     state: {
       type: Object,
