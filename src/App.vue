@@ -34,9 +34,8 @@ export default {
   },
   methods: {
     getData: function() {
-      console.log(process.env);
       const Airtable = require('airtable');
-      const base = new Airtable({apiKey: process.env.AIRTABLE_API_KEY}).base('appUkL89RMW3J7G5t');
+      const base = new Airtable({apiKey: process.env.VUE_APP_AIRTABLE_API_KEY}).base('appUkL89RMW3J7G5t');
       const state_data = [];
       base('State Absentee Voting Data').select({
         sort: [
@@ -49,7 +48,6 @@ export default {
         fetchNextPage();
       }, function done(err){
         if(err){console.error(err); return;}
-        console.log(state_data)
       });
       this.states = state_data;
 
