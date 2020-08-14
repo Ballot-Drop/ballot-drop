@@ -9,16 +9,8 @@
 </template>
 
 <script>
-// import dotenv from 'dotenv';
 
-// require('dotenv').config({ debug: process.env.DEBUG })
-console.log(process.env.AIRTABLE_API_KEY);
-// const config = dotenv.config()
-// if(config.error){
-//   console.log('Could not load env file', config.error)
-// }
 import BallotDrop from './components/BallotDrop.vue'
-// import Airtable from 'airtable'
 export default {
   name: 'App',
   components: {
@@ -64,5 +56,6 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+  min-height: 1200px;
 }
 </style>
