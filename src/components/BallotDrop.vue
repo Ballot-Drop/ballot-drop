@@ -1,7 +1,7 @@
 <template>
   <div class="hello">
     <h1>{{ msg }}</h1>
-    <h2>Save Democracy</h2>
+    <h2>Save Democracy!</h2>
     <StateList :states=states></StateList>
   </div>
 </template>
