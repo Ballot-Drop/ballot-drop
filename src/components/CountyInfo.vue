@@ -10,14 +10,23 @@
     </select>
     <div v-if="selectedCounty">
       <h3>{{counties[selectedCounty]["County"]}}</h3>
+      <QA class="qa"
+          v-for="(question, index) in questions"
+          v-bind:key="index"
+          :question=question.q
+          :answer="counties[selectedCounty][question.a]"
+          :link="counties[selectedCounty][question.link]"
+      />
     </div>
 
   </div>
 </template>
 
 <script>
+import QA from "@/components/QA"
 export default {
   name: 'CountyInfo',
+  components: {QA},
   props: {
     counties: {
       type: Array,
@@ -27,7 +36,16 @@ export default {
   },
   data: function(){
     return {
-      selectedCounty: null
+      selectedCounty: null,
+      questions: [
+        {q: 'Local Election Official',  a:'Local Election Official'},
+        {q: 'Office Address',  a:'Local Election Office Address'},
+        {q: 'Phone Number',  a:'Local Election Office Phone Number'},
+        {q: "Website", a:"Local Election Office Website", link: "Local Election Office Website"},
+        {q: "Ballot Drop Off Locations", a: "Ballot Drop Off Locations"},
+        {q: "Early Voting Locations", a: "Early Voting Locations"},
+
+        ]
     }
   },
   methods: {

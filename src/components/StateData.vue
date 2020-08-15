@@ -50,8 +50,5 @@ export default {
 .meat-and-potatoes {
   font-size: 24px;
 }
-.qa {
-  display: block;
-  margin-bottom: 25px;
-}
+
 </style>

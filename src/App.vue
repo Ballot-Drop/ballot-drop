@@ -28,7 +28,7 @@ export default {
     getData: function() {
       const Airtable = require('airtable');
       const base = new Airtable({apiKey: process.env.VUE_APP_AIRTABLE_API_KEY}).base('appUkL89RMW3J7G5t');
-      const state_data = [];
+      const state_data = [{},];
       base('State Absentee Voting Data').select({
         sort: [
           {field: 'State/Territory', direction:'asc'}
@@ -57,5 +57,10 @@ export default {
   color: #2c3e50;
   margin-top: 60px;
   min-height: 1200px;
+}
+
+.qa {
+  display: block;
+  margin-bottom: 25px;
 }
 </style>
