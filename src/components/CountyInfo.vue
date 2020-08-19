@@ -1,7 +1,7 @@
 <template>
   <div>
     County info
-    <select v-model="selectedCounty" v-bind:selected=selectedCounty>
+    <select v-model="selectedCounty" v-bind:selected=selectedCounty @change="updateRouter()">
       <option
           v-for="(county, index) in counties"
           :key="index"
@@ -49,6 +49,7 @@ export default {
   data: function () {
     return {
       selectedCounty: null,
+      selectedCountyName: null,
       questions: [
         {q: 'Local Election Official', a: 'Local Election Official'},
         {q: 'Office Address', a: 'Local Election Office Address'},
@@ -62,14 +63,49 @@ export default {
   computed: {
     anyData: function () {
       return this.questions.some(qa => this.counties[this.selectedCounty][qa.a] !== undefined);
+    },
+    countyName: function(){
+      if( ! this.selectedCounty ) return null;
+      return this.counties[this.selectedCounty]["County"];
     }
   },
-  methods: {},
+  methods: {
+    updateRouter() {
+      let state = this.$route.fullPath.split("/")[1];
+      this.$router.push({path:`/${state}/${this.countyName.replace(/\s/g, "-")}`});
+
+    },
+    checkRoute(){
+      // Check for county route
+      if( this.$route.params.state !== undefined && this.$route.params.county !== undefined) {
+        this.selectedStateName = this.$route.params.state.replace("-"," ");
+        this.selectedCountyName = this.$route.params.county.replace("-", " ");
+        let i=0;
+        for(i; i<this.counties.length; i++) {
+          if( this.counties[i]["County"] === this.selectedCountyName ) break;
+        }
+        // County doesn't exist as spelled
+        if( i === this.counties.length ){
+          this.selectedCounty = 0;
+          let path = `/${this.$route.params.state}`
+          this.$router.push({path: path});
+        }
+        else this.selectedCounty = i;
+      }
+      // Check for county route
+    }
+  },
   watch: {
     counties: function () {
       this.selectedCounty = 0;
-    }
-  }
+      this.checkRoute()
+    },
+    // countyName: function() {
+    //   console.log(this.countyName);
+    // //   let path = "/" + this.stateName.replace(/\s/g, "-");
+    // //   this.$router.push({path: path});
+    // }
+  },
 }
 </script>
 

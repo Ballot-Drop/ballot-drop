@@ -1,28 +1,45 @@
 <template>
-  <div id="app">
-    <img alt="Be Safe and Vote" src="./assets/be_safe_and_vote.png">
-    <BallotDrop
-        msg="Ballot Drop"
-        :states=states
-    />
+  <div id="app" ref="main_app">
+<!--    <div id="nav">-->
+<!--      <router-link to="/">Home</router-link> |-->
+<!--      <router-link to="/about">About</router-link>-->
+<!--    </div>-->
+    <router-view/>
+
+<!--    <img alt="Be Safe and Vote" src="./assets/be_safe_and_vote.png">-->
+<!--    <BallotDrop-->
+<!--        msg="Ballot Drop"-->
+<!--        :states=states-->
+<!--        v-model=router_state-->
+
+<!--    />-->
   </div>
 </template>
 
 <script>
 
-import BallotDrop from './components/BallotDrop.vue'
+// import BallotDrop from './components/BallotDrop.vue'
 export default {
   name: 'App',
   components: {
-    BallotDrop
+    // BallotDrop
+  },
+  props: {
+    state_route: {type: String, required: false},
+    county_route: {type: String, required: false},
   },
   data: function() {
     return {
-      states: []
+      states: [],
+      router_state: ""
     }
   },
   mounted() {
+    console.log("App mounted")
     this.getData();
+    // console.log(this.$route);
+    // console.log(this.$router);
+    // console.log(this.$route.params)
   },
   methods: {
     getData: function() {
@@ -43,7 +60,13 @@ export default {
       });
       this.states = state_data;
 
-    }
+    },
+    // loadState(){
+    //   console.log('load state')
+    //   console.log(this.router_state)
+    //   this.router_state = "test";
+    //   console.log(this.router_state)
+    // }
   }
 }
 </script>
