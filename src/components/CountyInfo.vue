@@ -19,8 +19,14 @@
             :answer="counties[selectedCounty][question.a]"
             :link="counties[selectedCounty][question.link]"
         />
+
       </div>
       <span v-else>{{ counties[selectedCounty]['County'] }} info coming soon!</span>
+      <DropBoxContainer
+          id="drop_box"
+          v-if="selectedCounty"
+          :county_fips="counties[selectedCounty]['Area FIPS']"
+      />
     </div>
 
   </div>
@@ -28,10 +34,11 @@
 
 <script>
 import QA from "@/components/QA"
+import DropBoxContainer from "@/components/DropBoxContainer";
 
 export default {
   name: 'CountyInfo',
-  components: {QA},
+  components: {QA, DropBoxContainer},
   props: {
     counties: {
       type: Array,
