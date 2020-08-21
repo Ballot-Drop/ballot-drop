@@ -89,8 +89,6 @@ export default {
         this.selectedState = i;
         this.getCountyData();
       }
-      // Check for county route
-      console.log(this.$route.params);
     }
   },
   mounted: function() {

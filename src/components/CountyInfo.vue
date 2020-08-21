@@ -100,11 +100,6 @@ export default {
       this.selectedCounty = 0;
       this.checkRoute()
     },
-    // countyName: function() {
-    //   console.log(this.countyName);
-    // //   let path = "/" + this.stateName.replace(/\s/g, "-");
-    // //   this.$router.push({path: path});
-    // }
   },
 }
 </script>
