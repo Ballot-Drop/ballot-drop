@@ -35,14 +35,11 @@ export default {
     }
   },
   mounted() {
-    console.log("App mounted")
-    this.getData();
-    // console.log(this.$route);
-    // console.log(this.$router);
-    // console.log(this.$route.params)
+    // this.getData();
   },
   methods: {
     getData: function() {
+      // todo: not currently in use
       const Airtable = require('airtable');
       const base = new Airtable({apiKey: process.env.VUE_APP_AIRTABLE_API_KEY}).base('appUkL89RMW3J7G5t');
       const state_data = [{},];
@@ -61,12 +58,6 @@ export default {
       this.states = state_data;
 
     },
-    // loadState(){
-    //   console.log('load state')
-    //   console.log(this.router_state)
-    //   this.router_state = "test";
-    //   console.log(this.router_state)
-    // }
   }
 }
 </script>
