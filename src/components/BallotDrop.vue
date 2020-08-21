@@ -1,8 +1,9 @@
 <template>
   <div class="hello">
+    <img alt="Be Safe and Vote" src="../assets/be_safe_and_vote.png">
     <h1>{{ msg }}</h1>
     <h2>Save Democracy!</h2>
-    <StateList :states=states></StateList>
+    <StateList></StateList>
   </div>
 </template>
 
@@ -13,10 +14,9 @@ export default {
   components: {StateList},
   props: {
     msg: String,
-    states: {
-      type: Array,
-      required: true
-    }
+  },
+  mounted() {
+
   }
 }
 </script>

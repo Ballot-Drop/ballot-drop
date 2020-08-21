@@ -1,31 +1,45 @@
 <template>
-  <div id="app">
-    <img alt="Be Safe and Vote" src="./assets/be_safe_and_vote.png">
-    <BallotDrop
-        msg="Ballot Drop"
-        :states=states
-    />
+  <div id="app" ref="main_app">
+<!--    <div id="nav">-->
+<!--      <router-link to="/">Home</router-link> |-->
+<!--      <router-link to="/about">About</router-link>-->
+<!--    </div>-->
+    <router-view/>
+
+<!--    <img alt="Be Safe and Vote" src="./assets/be_safe_and_vote.png">-->
+<!--    <BallotDrop-->
+<!--        msg="Ballot Drop"-->
+<!--        :states=states-->
+<!--        v-model=router_state-->
+
+<!--    />-->
   </div>
 </template>
 
 <script>
 
-import BallotDrop from './components/BallotDrop.vue'
+// import BallotDrop from './components/BallotDrop.vue'
 export default {
   name: 'App',
   components: {
-    BallotDrop
+    // BallotDrop
+  },
+  props: {
+    state_route: {type: String, required: false},
+    county_route: {type: String, required: false},
   },
   data: function() {
     return {
-      states: []
+      states: [],
+      router_state: ""
     }
   },
   mounted() {
-    this.getData();
+    // this.getData();
   },
   methods: {
     getData: function() {
+      // todo: not currently in use
       const Airtable = require('airtable');
       const base = new Airtable({apiKey: process.env.VUE_APP_AIRTABLE_API_KEY}).base('appUkL89RMW3J7G5t');
       const state_data = [{},];
@@ -43,7 +57,7 @@ export default {
       });
       this.states = state_data;
 
-    }
+    },
   }
 }
 </script>
