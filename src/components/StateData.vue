@@ -34,10 +34,15 @@ export default {
   data: function(){
     return {
       questions: [
+        {q: "Registration Deadline", a: "Registration Deadline"},
         {q: "Absentee voting", a: "Absentee Voting Status"},
+        {q: "Absentee Voting Requirements", a: "Absentee Voting Requirements"},
         {q: "Absentee Ballot Application Deadline", a: "Absentee Application Deadline"},
         {q: "How to Apply for Absentee Ballot", a: "How to Apply for Absentee Ballot", link:"Application Link"},
-        {q: "Absentee Ballot Voting Deadline", a: "Absentee Ballot Deadline"}
+        {q: "Absentee Ballot Voting Deadline", a: "Absentee Ballot Deadline"},
+        {q: "Ballot Drop Off Options", a: "Ballot Drop Off Options"},
+        {q: "Can Someone Else Return Your Ballot?", a: "Can Someone Else Return Your Ballot?"},
+        {q: "Early Voting Dates", a: "Early Voting Dates"},
       ]
     }
   },
