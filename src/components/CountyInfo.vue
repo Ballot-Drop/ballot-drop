@@ -55,8 +55,8 @@ export default {
         {q: 'Office Address', a: 'County Election Office Address'},
         {q: 'Phone Number', a: 'County Election Office Phone Number'},
         {q: "Website", a: "County Election Office Website", link: "County Election Office Website"},
-        {q: "County Election Office Hours of Operation", a: "County Election Office Hours of Operation"},
-        {q: "Ballot Drop Off Locations", a: "Ballot Drop Boxes?"},
+        {q: "County Election Office Hours of Operation", a: "County Election Office Hours of Operation (M-F)"},
+        {q: "Ballot Drop Off Locations", a: "Are Ballot Drop Boxes Available?"},
         {q: "Where Can Absentee Ballots be Dropped Off?", a: "Where Can Absentee Ballots be Dropped Off?"},
       ],
     }
