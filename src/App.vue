@@ -1,9 +1,10 @@
 <template>
   <div id="app" ref="main_app">
-<!--    <div id="nav">-->
-<!--      <router-link to="/">Home</router-link> |-->
-<!--      <router-link to="/about">About</router-link>-->
-<!--    </div>-->
+    <div id="nav">
+      <router-link to="/">Home</router-link> |
+      <router-link to="/about">About</router-link> |
+      <router-link to="/contact">Contact</router-link>
+    </div>
     <router-view/>
 
 <!--    <img alt="Be Safe and Vote" src="./assets/be_safe_and_vote.png">-->
