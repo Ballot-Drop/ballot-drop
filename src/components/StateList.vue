@@ -1,15 +1,17 @@
 <template>
   <div>
-    Worried about the post office delivering your ballot on time?<br />
-    Pick your state:
-    <select  v-model=selectedState @change="getCountyData()">
-      <option
-          v-for="(state, index) in states"
-          :key="index"
-          :value="index"
-      >{{ state["State/Territory"] }}</option>
-    </select>
-    <hr />
+    <div class="text-center">
+      Worried about the post office delivering your ballot on time?<br />
+      Pick your state:
+      <select  v-model=selectedState @change="getCountyData()">
+        <option
+            v-for="(state, index) in states"
+            :key="index"
+            :value="index"
+        >{{ state["State/Territory"] }}</option>
+      </select>
+      <hr />
+    </div>
     <StateData
         v-if="selectedState"
         :state=states[selectedState]
