@@ -1,8 +1,10 @@
 <template>
   <div class="hello">
-    <img alt="Be Safe and Vote" src="../assets/be_safe_and_vote.png">
-    <h1>{{ msg }}</h1>
-    <h2>Save Democracy!</h2>
+    <div id="stateSelector">
+      <img alt="Be Safe and Vote" src="../assets/be_safe_and_vote.png">
+      <h1>{{ msg }}</h1>
+      <h2>Save Democracy!</h2>
+    </div>
     <StateList></StateList>
   </div>
 </template>
@@ -23,6 +25,9 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+#stateSelector{
+  text-align: center;
+}
 h3 {
   margin: 40px 0 0;
 }

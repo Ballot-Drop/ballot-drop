@@ -1,10 +1,10 @@
 <template>
-  <div>
-    <span class="question">{{question}}</span>
-    <span class="answer">
+  <div class="row">
+    <div class="question col-4 text-right font-weight-bold">{{question}}</div>
+    <div class="answer col-8 text-left">
       <a v-if="link" :href="link">{{answer}}</a>
       <span v-else>{{answer}}</span>
-    </span>
+    </div>
   </div>
 </template>
 
@@ -26,11 +26,6 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.question, .answer {
-  display: block;
-}
-.question {
-  font-weight: bold;
-}
+
 
 </style>

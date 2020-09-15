@@ -1,6 +1,6 @@
 <template v-if=state>
     <div>
-      <h2>{{state["State/Territory"]}}</h2>
+      <h2 class="bg-dark text-light">{{state["State/Territory"]}}</h2>
       <span class="meat-and-potatoes">
         <QA class="qa"
             v-for="(question, index) in questions"
@@ -10,7 +10,7 @@
             :link="state[question.link]"
         />
 
-        <CountyInfo v-if=state :counties=counties />
+        <CountyInfo v-if=state :counties=counties class="align-items-center text-center "/>
       </span>
     </div>
 </template>
@@ -56,6 +56,9 @@ export default {
 <style scoped>
 .meat-and-potatoes {
   font-size: 24px;
+}
+h2 {
+  text-align: center;
 }
 
 </style>

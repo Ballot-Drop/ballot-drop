@@ -1,6 +1,6 @@
 <template>
-  <div id="app" ref="main_app">
-    <div id="nav">
+  <div id="app" ref="main_app" class="container">
+    <div id="nav" class="text-center">
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link> |
       <router-link to="/contact">Contact</router-link>
@@ -14,6 +14,8 @@
 <!--        v-model=router_state-->
 
 <!--    />-->
+    <div id="footer">
+    </div>
   </div>
 </template>
 
@@ -68,14 +70,17 @@ export default {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
   color: #2c3e50;
   margin-top: 60px;
-  min-height: 1200px;
+  /*min-height: 1200px;*/
 }
 
 .qa {
   display: block;
   margin-bottom: 25px;
+}
+#footer {
+  min-height: 50px;
+  margin-top: 50px;
 }
 </style>
