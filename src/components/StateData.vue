@@ -1,8 +1,8 @@
 <template v-if=state>
     <div>
-      <h2 class="bg-dark text-light">{{state["State/Territory"]}}</h2>
+      <h2 class="bg-dark text-light text-center">{{state["State/Territory"]}}</h2>
       <span class="meat-and-potatoes">
-        <QA class="qa"
+        <QA
             v-for="(question, index) in questions"
             v-bind:key="index"
             :question=question.q
@@ -10,7 +10,7 @@
             :link="state[question.link]"
         />
 
-        <CountyInfo v-if=state :counties=counties class="align-items-center text-center "/>
+        <CountyInfo v-if=state :counties=counties class="align-items-center text-center"/>
       </span>
     </div>
 </template>
@@ -54,11 +54,5 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.meat-and-potatoes {
-  font-size: 24px;
-}
-h2 {
-  text-align: center;
-}
 
 </style>

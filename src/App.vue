@@ -72,15 +72,15 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
   margin-top: 60px;
-  /*min-height: 1200px;*/
 }
 
-.qa {
-  display: block;
-  margin-bottom: 25px;
-}
 #footer {
   min-height: 50px;
   margin-top: 50px;
 }
+
+.meat-and-potatoes {
+  font-size: 1.5rem;
+}
+
 </style>
