@@ -1,5 +1,5 @@
 <template>
-  <div class="row">
+  <div class="row mb-5 align-items-center">
     <div class="question col-4 text-right font-weight-bold">{{question}}</div>
     <div class="answer col-8 text-left">
       <a v-if="link" :href="link">{{answer}}</a>

@@ -1,22 +1,26 @@
 <template>
   <div>
     <h3 v-if="locations">Ballot Drop Locations</h3>
-    <table v-if="locations" cellpadding="3">
-      <thead>
-      <td>City</td>
-      <td>Location Name</td>
-      <td>Address</td>
-      <td width=100>Zip</td>
-      <td>Hours</td>
+    <table v-if="locations" class="table table-striped table-hover mt-4 text-left">
+      <thead class="thead-light">
+        <tr>
+          <th>City</th>
+          <th>Location Name</th>
+          <th>Address</th>
+          <th width=100>Zip</th>
+          <th>Hours</th>
 <!--      <td>Map</td>-->
+        </tr>
       </thead>
-      <tr v-for="(location, index) in locations" :key="index" >
-        <td>{{location.City}}</td>
-        <td>{{location.Name}}</td>
-        <td>{{location.Address}}</td>
-        <td>{{location.Zip}}</td>
-        <td>{{location.Hours}}</td>
-      </tr>
+      <tbody class="">
+        <tr v-for="(location, index) in locations" :key="index" >
+          <td>{{location.City}}</td>
+          <td>{{location.Name}}</td>
+          <td>{{location.Address}}</td>
+          <td>{{location.Zip}}</td>
+          <td>{{location.Hours}}</td>
+        </tr>
+      </tbody>
     </table>
   </div>
 </template>
@@ -29,7 +33,7 @@ export default {
   },
   data: function(){
     return {
-      locations: null
+      locations: null,
     }
   },
   methods: {
@@ -66,10 +70,6 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-#drop_box table {
-  margin: 0 auto;
-  text-align: left;
-}
 
 
 </style>

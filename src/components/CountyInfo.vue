@@ -10,9 +10,9 @@
       </option>
     </select>
     <div v-if="selectedCounty">
-      <h3 class="bg-dark text-light">{{ counties[selectedCounty]["County"] }}</h3>
+      <h3 class="bg-dark text-light mt-3 mb-3">{{ counties[selectedCounty]["County"] }}</h3>
       <div v-if="anyData">
-        <QA class="qa"
+        <QA
             v-for="(question, index) in questions"
             v-bind:key="index"
             :question=question.q
