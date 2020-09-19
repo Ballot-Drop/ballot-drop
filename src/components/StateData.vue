@@ -10,7 +10,7 @@
             :link="state[question.link]"
         />
 
-        <CountyInfo v-if=state :counties=counties class="align-items-center text-center"/>
+        <CountyInfo v-if=state :counties=counties class="align-items-center"/>
       </span>
     </div>
 </template>
