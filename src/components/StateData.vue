@@ -33,7 +33,12 @@ export default {
   },
   data: function(){
     return {
-      questions: [
+
+    }
+  },
+  computed: {
+    questions: function(){
+      let questions = [
         {q: "Registration Deadline", a: "Registration Deadline"},
         {q: "Absentee voting", a: "Absentee Voting Status"},
         {q: "Absentee Voting Requirements", a: "Absentee Voting Requirements"},
@@ -43,7 +48,11 @@ export default {
         {q: "Ballot Drop Off Options", a: "Ballot Drop Off Options"},
         {q: "Can Someone Else Return Your Ballot?", a: "Can Someone Else Return Your Ballot?"},
         {q: "Early Voting Dates", a: "Early Voting Dates"},
-      ]
+      ];
+
+      return questions.filter(question => this.state[question.a] !== undefined);
+
+
     }
   },
   mounted() {
