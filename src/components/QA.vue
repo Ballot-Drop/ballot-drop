@@ -3,7 +3,7 @@
     <div class="question col-sm-4 text-xs-left text-sm-right font-weight-bold">{{question}}</div>
     <div class="answer col-sm-8 text-left">
       <a v-if="link" :href="link">{{answer}}</a>
-      <span v-else>{{answer}}</span>
+      <span v-else v-html="linked_answer"></span>
     </div>
   </div>
 </template>
@@ -19,6 +19,12 @@ export default {
   data: function(){
     return {
       // selectedState: null
+    }
+  },
+  computed: {
+    linked_answer: function(){
+      return this.answer.replace(/(http.*)\b/, "<a href='$1'>$1</a>")
+
     }
   }
 }
