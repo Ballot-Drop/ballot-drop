@@ -1,29 +1,34 @@
 <template>
   <div>
-    <h3 v-if="locations">Ballot Drop Locations</h3>
-      <div class="table-responsive">
-      <table v-if="locations" class="table table-responsive table-striped table-hover mt-4 text-left">
-        <thead class="thead-light">
-          <tr>
-            <th>City</th>
-            <th>Location Name</th>
-            <th>Address</th>
-            <th width=100>Zip</th>
-            <th>Hours</th>
-  <!--      <td>Map</td>-->
-          </tr>
-        </thead>
-        <tbody class="">
-          <tr v-for="(location, index) in locations" :key="index" >
-            <td>{{location.City}}</td>
-            <td>{{location.Name}}</td>
-            <td>{{location.Address}}</td>
-            <td>{{location.Zip}}</td>
-            <td>{{location.Hours}}</td>
-          </tr>
-        </tbody>
-      </table>
-      </div>
+    <div v-if="locations && locations.length">
+      <h3>Ballot Drop Locations</h3>
+        <div class="table-responsive">
+        <table v-if="locations" class="table table-responsive table-striped table-hover mt-4 text-left">
+          <thead class="thead-light">
+            <tr>
+              <th>City</th>
+              <th>Location Name</th>
+              <th>Address</th>
+              <th width=100>Zip</th>
+              <th>Hours</th>
+    <!--      <td>Map</td>-->
+            </tr>
+          </thead>
+          <tbody class="">
+            <tr v-for="(location, index) in locations" :key="index" >
+              <td>{{location.City}}</td>
+              <td>{{location.Name}}</td>
+              <td>{{location.Address}}</td>
+              <td>{{location.Zip}}</td>
+              <td>{{location.Hours}}</td>
+            </tr>
+          </tbody>
+        </table>
+        </div>
+    </div>
+    <div v-else>
+      Ballot drop off locations coming soon!
+    </div>
   </div>
 </template>
 

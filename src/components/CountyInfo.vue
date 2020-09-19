@@ -50,15 +50,7 @@ export default {
     return {
       selectedCounty: null,
       selectedCountyName: null,
-      questions: [
-        {q: 'County Election Official', a: 'County Election Official'},
-        {q: 'Office Address', a: 'County Election Office Address'},
-        {q: 'Phone Number', a: 'County Election Office Phone Number'},
-        {q: "Website", a: "County Election Office Website", link: "County Election Office Website"},
-        {q: "County Election Office Hours of Operation", a: "County Election Office Hours of Operation (M-F)"},
-        {q: "Ballot Drop Off Locations", a: "Are Ballot Drop Boxes Available?"},
-        {q: "Where Can Absentee Ballots be Dropped Off?", a: "Where Can Absentee Ballots be Dropped Off?"},
-      ],
+
     }
   },
   computed: {
@@ -68,6 +60,21 @@ export default {
     countyName: function(){
       if( ! this.selectedCounty ) return null;
       return this.counties[this.selectedCounty]["County"];
+    },
+    questions: function(){
+      let questions = [
+        {q: 'County Election Official', a: 'County Election Official'},
+        {q: 'Office Address', a: 'County Election Office Address'},
+        {q: 'Phone Number', a: 'County Election Office Phone Number'},
+        {q: "Website", a: "County Election Office Website", link: "County Election Office Website"},
+        {q: "County Election Office Hours of Operation", a: "County Election Office Hours of Operation (M-F)"},
+        {q: "Ballot Drop Off Locations", a: "Are Ballot Drop Boxes Available?"},
+        {q: "Where Can Absentee Ballots be Dropped Off?", a: "Where Can Absentee Ballots be Dropped Off?"},
+      ];
+
+      return questions.filter(question => this.counties[this.selectedCounty][question.a] !== undefined);
+
+
     }
   },
   methods: {
