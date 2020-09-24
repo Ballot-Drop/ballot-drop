@@ -22,6 +22,11 @@
 
       </div>
       <span v-else>{{ counties[selectedCounty]['County'] }} info coming soon!</span>
+      <GoogleMap
+          id="map"
+          v-if="selectedCounty"
+          :county_fips="counties[selectedCounty]['Area FIPS']"
+      />
       <DropBoxContainer
           id="drop_box"
           v-if="selectedCounty"
@@ -35,10 +40,11 @@
 <script>
 import QA from "@/components/QA"
 import DropBoxContainer from "@/components/DropBoxContainer";
+import GoogleMap from "@/components/Map";
 
 export default {
   name: 'CountyInfo',
-  components: {QA, DropBoxContainer},
+  components: {QA, DropBoxContainer, GoogleMap},
   props: {
     counties: {
       type: Array,
