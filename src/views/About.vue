@@ -1,29 +1,66 @@
 <template>
-  <div class="about">
-    <h1>About Ballot Drop</h1>
-    <p>Ballot Drop’s primary goal is to enable voters to find their closest ballot drop box, by gathering and listing
-      every drop box in the country.</p>
+  <div class="about col-8 m-auto">
+    <h1>Welcome to Ballot Drop.</h1>
+    <h3>Our Reason for Being</h3>
+    <p>Ballot Drop’s mission is to enable all voters to find their closest ballot drop-off location by identifying every drop box in the country. Yep, all of them.
+    <p>Absentee or mail-in voting is likely the option many voters will chose given the challenges of this year’s election. As a non-partisan organization, Ballot Drop aims to support all voters in casting their ballots reliably and safely.
+    <p>Ballot drop boxes, when available, allow voters to immediately cast their ballots without concern of postage, mail delays, or social distancing protocols.
 
-    <p>In an incredibly important election year with the efficacy of USPS in question and
-      a global pandemic making in-person voting potentially dangerous, safely and reliably casting your ballot is of the
-      utmost importance. Ballot drop boxes, when available, allow voters to immediately cast their ballot without
-      concern of postage, delays, or social distancing needs.</p>
+    <h3>How it Works</h3>
+    <p>Each state has different rules about how and where you can vote. Ballot Drop lists those rules on a state-by-state and county-by-county level. Select your state, then select your county to see all of the information we’ve collected.
 
-    <p>Each state has different rules about how and where you can vote, and Ballot Drop attempts to list those rules on
-      a state-by-state and county-by-county level. Ballot Drop is intended to be used as a reference, with links to
-      official source websites. The rules about this election change rapidly, so please confirm rules and locations with
-      your local election officials if you have any questions or concerns.</p>
+    <h3>Keep in Mind</h3>
+    <p>Ballot Drop is intended to be used as a reference, and we provide links to official source websites. The rules about this election change rapidly, so please confirm rules and locations with your state and local election officials if you have any questions or concerns.
 
-    <p>Ballot Drop is a non-partisan volunteer effort. We could use your help in sourcing and updating data as well as
-      improving the site itself. <strong>Want to help?</strong> <a
-          href="https://join.slack.com/t/ballotdrop/shared_invite/zt-hdeyo1vk-VarchL5nx0ok1NpMfZh0fQ" target="_blank">
-        Join our slack to get started</a>
-    </p>
+    <h3>Want to Help?</h3>
+    <p>Ballot Drop is a non-partisan volunteer effort. We’d love for you to get involved to help  source and update data, as well as improve the functionality of the site.
+      <a href="https://join.slack.com/t/ballotdrop/shared_invite/zt-hdeyo1vk-VarchL5nx0ok1NpMfZh0fQ" target="_blank">Join our slack to get started!</a>
 
-    <p>Questions? Head over to
-      <router-link to="/contact">the contact page</router-link>.
-    </p>
+    <h3>Questions?</h3>
+    <router-link to="/contact">Head over to the contact page.</router-link>
+
+    <h3>Let’s Be Social!</h3>
+    <div class="row">
+      <div class="col-4 social">
+        <a href="http://instagram.com/ballotdrop" target="_blank">
+          <img src="../assets/instagram.svg" alt="@ballotdrop">
+          @ballotdrop on Instagram
+        </a>
+      </div>
+
+      <div class="col-4 social">
+        <a href="https://www.facebook.com/ballotdrop" target="_blank">
+          <img src="../assets/facebook.svg" alt="@ballotdrop">
+          @ballotdrop on Facebook
+        </a>
+      </div>
+
+      <div class="col-4 social">
+        <a href="https://twitter.com/ballotdrop" target="_blank">
+          <img src="../assets/twitter.svg" alt="@ballotdrop">
+          @ballotdrop on Twitter
+        </a>
+      </div>
+    </div>
+
+
 
 
   </div>
 </template>
+
+
+<style scoped>
+  h3 {
+    margin-top: 25px;
+  }
+  .about .social {
+    text-align: center;
+  }
+  .about img {
+    width: 50px;
+    display: block;
+    margin: auto;
+  }
+
+</style>

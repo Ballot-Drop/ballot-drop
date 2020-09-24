@@ -73,7 +73,9 @@ export default {
   color: #2c3e50;
   margin-top: 60px;
 }
-
+#nav {
+  margin-bottom: 25px;
+}
 #footer {
   min-height: 50px;
   margin-top: 50px;

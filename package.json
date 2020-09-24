@@ -15,6 +15,7 @@
     "core-js": "^3.6.5",
     "dotenv": "^8.2.0",
     "vue": "^2.6.12",
+    "vue-analytics": "^5.22.1",
     "vue-router": "^3.2.0"
   },
   "devDependencies": {
