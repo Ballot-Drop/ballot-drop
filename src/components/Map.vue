@@ -6,12 +6,13 @@
         :center="center"
         :zoom="12"
         style="width:100%;  height: 100vh;"
+        @click="closeInfoWindows()"
     >
 
       <gmap-marker
           :key="index"
           v-for="(m, index) in locations"
-          :position="m.position"
+          :position="{lat: parseFloat(m.lat), lng: parseFloat(m.lng)}"
           @click="toggleInfoWindow(m,index)">
       </gmap-marker>
 
@@ -35,14 +36,18 @@
 export default {
   name: 'GoogleMap',
   props: {
-    county_fips: String,
+    // county_fips: String,
+    locations: {
+      type: Array,
+      required: true
+    }
   },
   data: function(){
     return {
-      locations: null,
+      // locations: null,
 
       //a default center for the map
-      center: {lat: 52.511950, lng: 6.089625},  // todo: update dynamically
+      center: {lat: 39.7392, lng: -104.9903},
       map: null,
       infoContent: '',
       infoWindowPos: {
@@ -63,72 +68,8 @@ export default {
     }
   },
   methods: {
-
-    getData() {
-      const Airtable = require('airtable');
-      const base = new Airtable({apiKey: process.env.VUE_APP_AIRTABLE_API_KEY}).base('appUkL89RMW3J7G5t');
-      const locations = [];
-      base('Ballot Drop Off Locations').select({
-        filterByFormula: `County="${this.county_fips}"`,
-        sort: [
-          {field: 'City', direction: 'asc'}
-        ]
-      }).eachPage(function page(records, fetchNextPage) {
-        records.forEach(function(record) {
-          record.fields.position = {lat: parseFloat(record.fields.lat), lng:parseFloat(record.fields.lng)}
-          locations.push(record.fields);
-        });
-        fetchNextPage();
-      }, function done(err){
-        if(err){console.error(err); return;}
-      });
-      this.locations = locations;
-
-      // set map bounds
-      this.$refs.gmap.$mapPromise.then((map) => {
-
-        const bounds = new window.google.maps.LatLngBounds()
-        // console.log(bounds);
-        console.log(this.locations);
-        console.log(Object.keys(this.locations))
-        console.log(Array.from(this.locations));
-        // console.log(typeof locations);
-        this.locations.forEach(m => {
-          console.log(m);
-        })
-
-        Array.prototype.forEach.call(this.locations, m => {
-          console.log(m);
-        })
-
-        Array.from(this.locations).forEach(m => {
-          console.log(m);
-        })
-
-        Object.keys(this.locations).forEach(key => {
-          const m = this.locations[key]
-          console.log(m);
-        })
-
-        Object.entries(this.locations).forEach(([key, m]) => {
-          console.log(key, m);
-        })
-        // for (let m of locations) {
-        //   console.log("loop")
-        //   console.log([m.position.lat, m.position.lng])
-        //   bounds.extend([m.position.lat, m.position.lng])
-        // }
-        // for( let i of this.locations) {
-        //   console.log(i);
-        //   console.log(this.locations[i]);
-        // }
-        map.fitBounds(bounds);
-      });
-    },
-
-
     toggleInfoWindow: function (marker, idx) {
-      this.infoWindowPos = marker.position;
+      this.infoWindowPos = {lat: parseFloat(marker.lat), lng: parseFloat(marker.lng)};
       this.infoContent = this.getInfoWindowContent(marker);
 
 
@@ -161,35 +102,28 @@ export default {
   </div>
 </div>`);
     },
-  },
-  watch: {
-    county_fips: function() {
-      this.getData();
-    },
-    locations: function() {
-      this.$refs.gmap.$mapPromise.then((map) => {
-        const bounds = new window.google.maps.LatLngBounds()
-        for (let m of this.locations) {
-          bounds.extend(m.position)
-        }
 
-        map.fitBounds(bounds);
-      });
-
+    closeInfoWindows: function() {
+      this.infoWinOpen = false;
     }
   },
-  mounted() {
-    this.getData();
 
-    //set bounds of the map
-    // this.$refs.gmap.$mapPromise.then((map) => {
-    //
-    //   const bounds = new window.google.maps.LatLngBounds()
-    //   for (let m of this.locations) {
-    //     bounds.extend(m.position)
-    //   }
-    //   map.fitBounds(bounds);
-    // });
+  mounted() {
+    this.$refs.gmap.$mapPromise.then((map) => {
+      const bounds = new window.google.maps.LatLngBounds()
+      for (let m of this.locations) {
+        bounds.extend({lat: parseFloat(m.lat), lng: parseFloat(m.lng)})
+      }
+      map.fitBounds(bounds);
+
+      // Deal with zoom delay on load
+      setTimeout(function(){
+        if (map.getZoom() > 18 ) map.setZoom(16);
+      },
+        100
+      );
+
+    });
   }
 }
 </script>
