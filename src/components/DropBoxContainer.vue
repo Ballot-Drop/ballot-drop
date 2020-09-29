@@ -2,6 +2,14 @@
   <div>
     <div v-if="locations && locations.length">
       <h3>Ballot Drop Locations</h3>
+
+      <GoogleMap
+          id="map"
+          v-if="locations"
+          :locations="locations"
+      />
+
+
         <div class="table-responsive">
         <table v-if="locations" class="table table-responsive table-striped table-hover mt-4 text-left">
           <thead class="thead-light">
@@ -33,9 +41,11 @@
 </template>
 
 <script>
+import GoogleMap from "@/components/Map";
 import { AIRTABLE_API_KEY } from '@/config';
 
 export default {
+  components: {GoogleMap},
   name: 'DropBoxContainer',
   props: {
     county_fips: String,
