@@ -22,7 +22,9 @@
 
 <script>
 import StateData from "@/components/StateData";
+import { AIRTABLE_API_KEY } from '@/config';
 // import getData from "@/router/index"; // todo
+
 export default {
   name: 'StateList',
   components: {StateData},
@@ -59,7 +61,7 @@ export default {
   methods: {
     getCountyData() {
       const Airtable = require('airtable');
-      const base = new Airtable({apiKey: process.env.VUE_APP_AIRTABLE_API_KEY}).base('appUkL89RMW3J7G5t');
+      const base = new Airtable({apiKey: AIRTABLE_API_KEY}).base('appUkL89RMW3J7G5t');
       const county_data = [{}, ];
       base('County Local Election Information').select({
         filterByFormula: `State="${this.states[this.selectedState]['State/Territory']}"`,
@@ -95,7 +97,7 @@ export default {
   },
   mounted: function() {
     const Airtable = require('airtable');
-    const base = new Airtable({apiKey: process.env.VUE_APP_AIRTABLE_API_KEY}).base('appUkL89RMW3J7G5t');
+    const base = new Airtable({apiKey: AIRTABLE_API_KEY}).base('appUkL89RMW3J7G5t');
     const state_data = [{},];
     const _this = this;
     base('State Absentee Voting Data').select({

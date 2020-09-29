@@ -20,8 +20,8 @@
 </template>
 
 <script>
+import { AIRTABLE_API_KEY } from '@/config';
 
-// import BallotDrop from './components/BallotDrop.vue'
 export default {
   name: 'App',
   components: {
@@ -44,7 +44,7 @@ export default {
     getData: function() {
       // todo: not currently in use
       const Airtable = require('airtable');
-      const base = new Airtable({apiKey: process.env.VUE_APP_AIRTABLE_API_KEY}).base('appUkL89RMW3J7G5t');
+      const base = new Airtable({apiKey: AIRTABLE_API_KEY}).base('appUkL89RMW3J7G5t');
       const state_data = [{},];
       base('State Absentee Voting Data').select({
         sort: [
