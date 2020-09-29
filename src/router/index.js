@@ -10,7 +10,7 @@ const routes = [
     name: 'Home',
     component: BallotDrop,
     meta: {
-      title: 'Ballot Drop - Home',
+      title: 'Home - Ballot Drop',
     },
   },
   {
@@ -21,7 +21,7 @@ const routes = [
     // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "about" */ '../views/About.vue'),
     meta: {
-      title: 'Ballot Drop - About',
+      title: 'About - Ballot Drop',
     },
   },
     {
@@ -32,7 +32,7 @@ const routes = [
       // which is lazy-loaded when the route is visited.
       component: () => import(/* webpackChunkName: "contact" */ '../views/Contact.vue'),
       meta: {
-        title: 'Ballot Drop - Contact',
+        title: 'Contact - Ballot Drop',
       },
     },
     {
@@ -43,7 +43,7 @@ const routes = [
         state_route: null
       },
       meta: {
-        title: route => `Ballot Drop - ${route.params.state}`,
+        title: route => `${route.params.state} - Ballot Drop`,
       },
     },
     {
@@ -52,7 +52,7 @@ const routes = [
       name: 'County',
       component: BallotDrop,
       meta: {
-        title: route => `Ballot Drop - ${route.params.state} - ${route.params.county}`,
+        title: route => `${route.params.county}, ${route.params.state}- Ballot Drop`,
       },
     }
 
@@ -69,7 +69,7 @@ const routes = [
 
 const router = new VueRouter({
   mode: "history",
-  routes
+  routes,
 })
 
 router.afterEach((to) => {
