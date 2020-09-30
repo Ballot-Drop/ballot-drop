@@ -43,7 +43,7 @@ const routes = [
         state_route: null
       },
       meta: {
-        title: route => `${route.params.state} - Ballot Drop`,
+        title: route => `${route.params.state.replace("-", " ")} - Ballot Drop`,
       },
     },
     {
@@ -52,7 +52,8 @@ const routes = [
       name: 'County',
       component: BallotDrop,
       meta: {
-        title: route => `${route.params.county}, ${route.params.state}- Ballot Drop`,
+        title: route =>
+          `${route.params.county.replace("-", " ")}, ${route.params.state.replace("-", " ")} - Ballot Drop`,
       },
     }
 
