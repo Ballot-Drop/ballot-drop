@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import { AIRTABLE_API_KEY } from '@/config';
+import { AIRTABLE_API_KEY, AIRTABLE_BASE } from '@/config';
 
 export default {
   name: 'App',
@@ -44,7 +44,7 @@ export default {
     getData: function() {
       // todo: not currently in use
       const Airtable = require('airtable');
-      const base = new Airtable({apiKey: AIRTABLE_API_KEY}).base('appUkL89RMW3J7G5t');
+      const base = new Airtable({apiKey: AIRTABLE_API_KEY}).base(AIRTABLE_BASE);
       const state_data = [{},];
       base('State Absentee Voting Data').select({
         sort: [
