@@ -1,23 +1,24 @@
 <template v-if=state>
-    <div>
-      <h2 class="bg-dark text-light text-center">{{state["State/Territory"]}}</h2>
-      <span class="meat-and-potatoes">
-        <QA
-            v-for="(question, index) in questions"
-            v-bind:key="index"
-            :question=question.q
-            :answer="state[question.a]"
-            :link="state[question.link]"
-        />
+  <div>
+    <h2 class="bg-dark text-light text-center">{{state["State/Territory"]}}</h2>
+    <span class="info-section">
+      <QA
+        v-for="(question, index) in questions"
+        v-bind:key="index"
+        :question=question.q
+        :answer="state[question.a]"
+        :link="state[question.link]"
+      />
 
-        <CountyInfo v-if=state :counties=counties class="align-items-center"/>
-      </span>
-    </div>
+      <CountyInfo v-if=state :counties=counties class="align-items-center"/>
+    </span>
+  </div>
 </template>
 
 <script>
 import QA from "@/components/QA";
 import CountyInfo from "@/components/CountyInfo";
+
 export default {
   name: 'StateData',
   components: {QA, CountyInfo},
@@ -51,17 +52,14 @@ export default {
       ];
 
       return questions.filter(question => this.state[question.a] !== undefined);
-
-
     }
   },
-  mounted() {
-  }
-
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
+.info-section {
+  font-size: 1.5rem;
+}
 </style>

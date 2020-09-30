@@ -1,10 +1,11 @@
 import Vue from 'vue'
 import VueRouter from 'vue'
-import App from './App.vue'
-import router from './router'
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 import VueAnalytics from 'vue-analytics'
 import * as VueGoogleMaps from 'vue2-google-maps'
+import App from './App.vue'
+import router from './router'
+import { GOOGLE_MAPS_API_KEY } from './config';
 
 // Install BootstrapVue
 Vue.use(BootstrapVue)
@@ -23,7 +24,7 @@ Vue.use(VueAnalytics, {
 
 Vue.use(VueGoogleMaps, {
   load: {
-    key: process.env.VUE_APP_GOOGLE_MAPS_API_KEY,
+    key: GOOGLE_MAPS_API_KEY,
     libraries: 'places', // This is required if you use the Autocomplete plugin
     // OR: libraries: 'places,drawing'
     // OR: libraries: 'places,drawing,visualization'

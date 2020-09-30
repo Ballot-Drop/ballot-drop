@@ -42,6 +42,8 @@
 
 <script>
 import GoogleMap from "@/components/Map";
+import { AIRTABLE_API_KEY, AIRTABLE_BASE } from '@/config';
+
 export default {
   components: {GoogleMap},
   name: 'DropBoxContainer',
@@ -56,7 +58,7 @@ export default {
   methods: {
     getData() {
       const Airtable = require('airtable');
-      const base = new Airtable({apiKey: process.env.VUE_APP_AIRTABLE_API_KEY}).base('appUkL89RMW3J7G5t');
+      const base = new Airtable({apiKey: AIRTABLE_API_KEY}).base(AIRTABLE_BASE);
       const locations = [];
       base('Ballot Drop Off Locations').select({
         filterByFormula: `County="${this.county_fips}"`,

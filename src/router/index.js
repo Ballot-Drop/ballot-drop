@@ -4,22 +4,25 @@ import BallotDrop from "@/components/BallotDrop";
 
 Vue.use(VueRouter)
 
-
-  const routes = [
-    {
-      path: '/',
-      name: 'Home',
-      component: BallotDrop,
-      props: {
-      }
+const routes = [
+  {
+    path: '/',
+    name: 'Home',
+    component: BallotDrop,
+    meta: {
+      title: 'Home - Ballot Drop',
     },
+  },
   {
     path: '/about',
     name: 'About',
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
+    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue'),
+    meta: {
+      title: 'About - Ballot Drop',
+    },
   },
     {
       path: '/contact',
@@ -27,7 +30,10 @@ Vue.use(VueRouter)
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "contact" */ '../views/Contact.vue')
+      component: () => import(/* webpackChunkName: "contact" */ '../views/Contact.vue'),
+      meta: {
+        title: 'Contact - Ballot Drop',
+      },
     },
     {
       path: '/:state',
@@ -35,17 +41,21 @@ Vue.use(VueRouter)
       component: BallotDrop,
       props: {
         state_route: null
-
-      }
+      },
+      meta: {
+        title: route => `${route.params.state.replace("-", " ")} - Ballot Drop`,
+      },
     },
     {
       // todo: allow for url changes to effect the page, back and forward buttons, etc
       path: '/:state/:county',
       name: 'County',
-      component: BallotDrop
+      component: BallotDrop,
+      meta: {
+        title: route =>
+          `${route.params.county.replace("-", " ")}, ${route.params.state.replace("-", " ")} - Ballot Drop`,
+      },
     }
-
-
 
   // {
   //   path: '/:state', component: () => {
@@ -59,7 +69,22 @@ Vue.use(VueRouter)
 ]
 
 const router = new VueRouter({
-  routes
+  mode: "history",
+  routes,
 })
+
+router.afterEach((to) => {
+  // set the default title to be 'Ballot Drop' in case a route doesn't specify a title
+  let title = 'Ballot Drop';
+
+  // set the title if it is specified in the route config
+  if (to.meta.title) {
+    // if it is static, set it to the desired string
+    // if it is dynamic, call the function to get the desired title
+    title = typeof to.meta.title === "function" ? to.meta.title(to) : to.meta.title;
+  }
+
+  document.title = title;
+});
 
 export default router
