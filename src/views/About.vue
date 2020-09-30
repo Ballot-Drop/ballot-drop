@@ -3,7 +3,7 @@
     <h1>Welcome to Ballot Drop.</h1>
     <h3>Our Reason for Being</h3>
     <p>Ballot Drop’s mission is to enable all voters to find their closest ballot drop-off location by identifying every drop box in the country. Yep, all of them.
-    <p>Absentee or mail-in voting is likely the option many voters will chose given the challenges of this year’s election. As a non-partisan organization, Ballot Drop aims to support all voters in casting their ballots reliably and safely.
+    <p>Absentee or mail-in voting is likely the option many voters will choose given the challenges of this year’s election. As a non-partisan organization, Ballot Drop aims to support all voters in casting their ballots reliably and safely.
     <p>Ballot drop boxes, when available, allow voters to immediately cast their ballots without concern of postage, mail delays, or social distancing protocols.
 
     <h3>How it Works</h3>
