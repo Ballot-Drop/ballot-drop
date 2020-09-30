@@ -80,9 +80,4 @@ export default {
   min-height: 50px;
   margin-top: 50px;
 }
-
-.meat-and-potatoes {
-  font-size: 1.5rem;
-}
-
 </style>

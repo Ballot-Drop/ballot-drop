@@ -113,10 +113,7 @@ export default {
       if(err){console.error(err); return;}
       _this.states = state_data;
       _this.checkRoute();
-
     });
-
-
   }
 }
 </script>
