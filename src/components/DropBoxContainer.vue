@@ -4,38 +4,64 @@
       <h3>Ballot Drop Locations</h3>
 
       <GoogleMap
-          id="map"
-          v-if="locations"
-          :locations="locations"
+        id="map"
+        v-if="locations"
+        :locations="locations"
       />
 
+      <b-form-group
+        label="Filter By City"
+        label-size="md"
+        label-for="filterInput"
+        label-cols="auto"
+        class="mb-2 mt-4"
+      >
+        <b-input-group size="md">
+          <b-form-input
+            v-model="filter"
+            type="search"
+            id="filterInput"
+            placeholder="Type to Search"
+          ></b-form-input>
+          <b-input-group-append>
+            <b-button :disabled="!filter" @click="filter = ''">Clear</b-button>
+          </b-input-group-append>
+        </b-input-group>
+      </b-form-group>
 
-        <div class="table-responsive">
-        <table v-if="locations" class="table table-responsive table-striped table-hover mt-4 text-left">
-          <thead class="thead-light">
-            <tr>
-              <th>City</th>
-              <th>Location Name</th>
-              <th>Address</th>
-              <th width=100>Zip</th>
-              <th>Hours</th>
-    <!--      <td>Map</td>-->
-            </tr>
-          </thead>
-          <tbody class="">
-            <tr v-for="(location, index) in locations" :key="index" >
-              <td>{{location.City}}</td>
-              <td>{{location.Name}}</td>
-              <td>{{location.Address}}</td>
-              <td>{{location.Zip}}</td>
-              <td>{{location.Hours}}</td>
-            </tr>
-          </tbody>
-        </table>
-        </div>
-    </div>
-    <div v-else>
-      Ballot drop off locations coming soon!
+      <b-table
+        :items="locations"
+        :fields="fields"
+        :filter="filter"
+        :filter-included-fields="filterOn"
+        empty-text="Ballot drop off locations coming soon!"
+        empty-filtered-text="No locations match that search term"
+        hover
+        responsive="sm"
+        show-empty
+        small
+        striped
+        text-left
+      >
+        <!-- show the empty-text if no locatiions -->
+        <template v-slot:empty="scope">
+          <h4 class="text-center">{{ scope.emptyText }}</h4>
+        </template>
+
+        <!-- show the empty-filtered-text if no locatiions match the search term-->
+        <template v-slot:emptyfiltered="scope">
+          <h4 class="text-center">{{ scope.emptyFilteredText }}</h4>
+        </template>
+
+        <!-- display the table when it has location data -->
+        <template v-slot:row-details="row">
+          <b-card>
+            <ul>
+              <li v-for="(value, key) in row.item" :key="key">{{ key }}: {{ value }}</li>
+            </ul>
+          </b-card>
+        </template>
+      </b-table>
     </div>
   </div>
 </template>
@@ -50,9 +76,22 @@ export default {
   props: {
     county_fips: String,
   },
-  data: function(){
+  data: function() {
     return {
       locations: null,
+      filter: null,
+      filterOn: ["City"],
+      fields: [
+        {
+          key: 'City',
+          label: 'City',
+          filterByFormatted: true,
+        },
+        { key: 'Name', label: 'Location Name' },
+        { key: 'Address', label: 'Address' },
+        { key: 'Zip', label: 'Zip' },
+        { key: 'Hours', label: 'Hours' },
+      ],
     }
   },
   methods: {
@@ -87,8 +126,6 @@ export default {
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
 
 </style>
