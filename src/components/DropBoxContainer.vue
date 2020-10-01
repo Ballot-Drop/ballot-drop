@@ -9,42 +9,6 @@
         :locations="locations"
       />
 
-      <b-row class="my-1 table-filter">
-        <b-col sm="4">
-          <label for="input-default">Filter the table:</label>
-        </b-col>
-        <b-col sm="8">
-          <b-form-input v-model="searchTerm" placeholder="Search Term"></b-form-input>
-          <span class="mt-2">Value: {{ searchTerm }}</span>
-        </b-col>
-      </b-row>
-
-      <div>
-        <table class="table table-responsive table-striped table-hover mt-4 text-left w-auto">
-          <thead class="thead-light">
-            <tr>
-              <th>City</th>
-              <th>Location Name</th>
-              <th>Address</th>
-              <th width=100>Zip</th>
-              <th>Hours</th>
-            </tr>
-          </thead>
-          <tbody v-if="filteredLocations && filteredLocations.length">
-            <tr v-for="(location, index) in filteredLocations" :key="index">
-              <td>{{location.City}}</td>
-              <td>{{location.Name}}</td>
-              <td>{{location.Address}}</td>
-              <td>{{location.Zip}}</td>
-              <td>{{location.Hours}}</td>
-            </tr>
-          </tbody>
-          <tbody v-else>
-            No cities match your search term
-          </tbody>
-        </table>
-      </div>
-
       <b-form-group
         label="Filter By City"
         label-size="md"
@@ -70,7 +34,7 @@
         :fields="fields"
         :filter="filter"
         :filter-included-fields="filterOn"
-        empty-text="No locations found"
+        empty-text="Ballot drop off locations coming soon!"
         empty-filtered-text="No locations match that search term"
         hover
         responsive="sm"
@@ -81,12 +45,12 @@
       >
         <!-- show the empty-text if no locatiions -->
         <template v-slot:empty="scope">
-          <h4>{{ scope.emptyText }}</h4>
+          <h4 class="text-center">{{ scope.emptyText }}</h4>
         </template>
 
         <!-- show the empty-filtered-text if no locatiions match the search term-->
         <template v-slot:emptyfiltered="scope">
-          <h4>{{ scope.emptyFilteredText }}</h4>
+          <h4 class="text-center">{{ scope.emptyFilteredText }}</h4>
         </template>
 
         <!-- display the table when it has location data -->
@@ -98,9 +62,6 @@
           </b-card>
         </template>
       </b-table>
-    </div>
-    <div v-else>
-      Ballot drop off locations coming soon!
     </div>
   </div>
 </template>
@@ -118,11 +79,6 @@ export default {
   data: function() {
     return {
       locations: null,
-      searchTerm: "",
-
-      sortBy: '',
-      sortDesc: false,
-      sortDirection: 'asc',
       filter: null,
       filterOn: ["City"],
       fields: [
@@ -130,8 +86,6 @@ export default {
           key: 'City',
           label: 'City',
           filterByFormatted: true,
-          sortable: true,
-          sortDirection: 'desc',
         },
         { key: 'Name', label: 'Location Name' },
         { key: 'Address', label: 'Address' },
@@ -164,14 +118,6 @@ export default {
   watch: {
     county_fips: function() {
       this.getData();
-    }
-  },
-  computed: {
-    filteredLocations: function() {
-      // get the locations with a city name that match the search term
-      const searchTerm = this.searchTerm.toLowerCase();
-      const filteredLocs = this.locations.filter(loc => loc.City.toLowerCase().includes(searchTerm));
-      return filteredLocs;
     }
   },
   mounted() {
