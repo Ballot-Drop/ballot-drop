@@ -15,11 +15,12 @@
     "core-js": "^3.6.5",
     "dotenv": "^8.2.0",
     "vue": "^2.6.12",
+    "vue-analytics": "^5.22.1",
     "vue-router": "^3.2.0",
-    "vue2-google-maps": "^0.10.7",
-    "vue-analytics": "^5.22.1"
+    "vue2-google-maps": "^0.10.7"
   },
   "devDependencies": {
+    "@testing-library/vue": "^5.1.0",
     "@vue/cli-plugin-babel": "~4.5.0",
     "@vue/cli-plugin-eslint": "~4.5.0",
     "@vue/cli-plugin-router": "~4.5.0",
