@@ -6,21 +6,13 @@
       <router-link to="/contact">Contact</router-link>
     </div>
     <router-view/>
-
-<!--    <img alt="Be Safe and Vote" src="./assets/be_safe_and_vote.png">-->
-<!--    <BallotDrop-->
-<!--        msg="Ballot Drop"-->
-<!--        :states=states-->
-<!--        v-model=router_state-->
-
-<!--    />-->
     <div id="footer">
     </div>
   </div>
 </template>
 
 <script>
-import { AIRTABLE_API_KEY, AIRTABLE_BASE } from '@/config';
+import { airtable } from '@/airtable';
 
 export default {
   name: 'App',
@@ -34,7 +26,6 @@ export default {
   data: function() {
     return {
       states: [],
-      router_state: ""
     }
   },
   mounted() {
@@ -43,23 +34,29 @@ export default {
   methods: {
     getData: function() {
       // todo: not currently in use
-      const Airtable = require('airtable');
-      const base = new Airtable({apiKey: AIRTABLE_API_KEY}).base(AIRTABLE_BASE);
-      const state_data = [{},];
-      base('State Absentee Voting Data').select({
-        sort: [
-          {field: 'State/Territory', direction:'asc'}
-        ]
-      }).eachPage(function page(records, fetchNextPage) {
-        records.forEach(function(record) {
-          state_data.push(record.fields);
-        });
-        fetchNextPage();
-      }, function done(err){
-        if(err){console.error(err); return;}
-      });
-      this.states = state_data;
+      const base = airtable();
 
+      const stateData = [{}];
+
+      base('State Absentee Voting Data')
+        .select({
+          sort: [
+            {field: 'State/Territory', direction:'asc'}
+          ]
+        })
+        .eachPage(function page(records, fetchNextPage) {
+          records.forEach(function(record) {
+            stateData.push(record.fields);
+          });
+          fetchNextPage();
+        }, function done(err) {
+          if (err) {
+            console.error(err);
+            return;
+          }
+        });
+
+      this.states = stateData;
     },
   }
 }

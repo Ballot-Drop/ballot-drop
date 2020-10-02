@@ -22,7 +22,8 @@
 
 <script>
 import StateData from "@/components/StateData";
-import { AIRTABLE_API_KEY, AIRTABLE_BASE } from '@/config';
+// import { AIRTABLE_API_KEY, AIRTABLE_BASE } from '@/config';
+import { airtable } from '@/airtable';
 // import getData from "@/router/index"; // todo
 
 export default {
@@ -60,27 +61,30 @@ export default {
   },
   methods: {
     getCountyData() {
-      const Airtable = require('airtable');
-      const base = new Airtable({apiKey: AIRTABLE_API_KEY}).base(AIRTABLE_BASE);
-      const county_data = [{}, ];
-      base('County Local Election Information').select({
-        filterByFormula: `State="${this.states[this.selectedState]['State/Territory']}"`,
-        sort: [
-          {field: 'County', direction: 'asc'}
-        ]
-      }).eachPage(function page(records, fetchNextPage) {
-        records.forEach(function (record) {
-          county_data.push(record.fields)
-        });
-        fetchNextPage();
-      }, function done(err) {
-        if (err) {
-          console.error(err);
-          return;
-        }
-      });
-      this.counties = county_data;
+      const countyData = [{}, ];
 
+      const base = airtable();
+
+      base('County Local Election Information')
+        .select({
+          filterByFormula: `State="${this.states[this.selectedState]['State/Territory']}"`,
+          sort: [
+            {field: 'County', direction: 'asc'}
+          ]
+        })
+        .eachPage(function page(records, fetchNextPage) {
+          records.forEach(function (record) {
+            countyData.push(record.fields)
+          });
+          fetchNextPage();
+        }, function done(err) {
+          if (err) {
+            console.error(err);
+            return;
+          }
+        });
+
+      this.counties = countyData;
     },
     checkRoute(){
       // Check for state route
@@ -96,24 +100,26 @@ export default {
     }
   },
   mounted: function() {
-    const Airtable = require('airtable');
-    const base = new Airtable({apiKey: AIRTABLE_API_KEY}).base(AIRTABLE_BASE);
-    const state_data = [{},];
+    const base = airtable();
+
+    const stateData = [{},];
     const _this = this;
-    base('State Absentee Voting Data').select({
-      sort: [
-        {field: 'State/Territory', direction:'asc'}
-      ]
-    }).eachPage(function page(records, fetchNextPage) {
-      records.forEach(function(record) {
-        state_data.push(record.fields);
+    base('State Absentee Voting Data')
+      .select({
+        sort: [
+          {field: 'State/Territory', direction:'asc'}
+        ]
+      })
+      .eachPage(function page(records, fetchNextPage) {
+        records.forEach(function(record) {
+          stateData.push(record.fields);
+        });
+        fetchNextPage();
+      }, function done(err){
+        if(err){console.error(err); return;}
+        _this.states = stateData;
+        _this.checkRoute();
       });
-      fetchNextPage();
-    }, function done(err){
-      if(err){console.error(err); return;}
-      _this.states = state_data;
-      _this.checkRoute();
-    });
   }
 }
 </script>
