@@ -1,7 +1,21 @@
-import { render } from '@testing-library/vue';
+import '@testing-library/jest-dom';
+import { render, fireEvent } from '@testing-library/vue';
+import Vue from 'vue'
+import { BootstrapVue } from 'bootstrap-vue';
+
 import ContactForm from '@/views/Contact';
 
+import axiosMock from 'axios';
+
+Vue.use(BootstrapVue);
+
 test('Check if ContactForm renders correctly', () => {
+  axiosMock.post.mockImplementationOnce(() =>
+    Promise.resolve({
+      data: { },
+    }),
+  )
+
   const { getByText, getByPlaceholderText, getByTestId } = render(ContactForm);
 
   const h1 = getByText("Contact Ballot Drop");
@@ -23,4 +37,31 @@ test('Check if ContactForm renders correctly', () => {
 
   const resetButton = getByText("Reset");
   expect(resetButton).toBeTruthy();
+});
+
+test('Check the reset button clears the input', async () => {
+  const { getByText, getByPlaceholderText, getByTestId, emitted } = render(ContactForm);
+
+  const fakeMessage = {
+    name: 'test user',
+    email: 'test@example.com',
+    message: 'an important message',
+  }
+
+  const emailInput = getByPlaceholderText("Enter email");
+  await fireEvent.update(emailInput, fakeMessage.email);
+
+  const nameInput = getByPlaceholderText("Enter name");
+  await fireEvent.update(nameInput, fakeMessage.name);
+
+  const messageInput = getByTestId("message");
+  await fireEvent.update(messageInput, fakeMessage.message);
+
+  const submitButton = getByText("Submit");
+  expect(submitButton).toBeEnabled();
+
+  await fireEvent.click(submitButton);
+
+  expect(axiosMock.post).toHaveBeenCalled();
+  expect(axiosMock.post).toHaveBeenCalledWith("https://formspree.io/xbjprngw", fakeMessage);
 });
