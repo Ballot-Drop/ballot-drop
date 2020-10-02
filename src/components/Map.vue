@@ -97,7 +97,7 @@ export default {
       ${marker.Address} <br />
       ${marker.City}, ${marker.['State (from County Absentee Voting Data)']} ${marker.Zip}
       <hr />
-      Hours: ${marker.Hours}
+      Hours: ${marker.Hours.replaceAll("\n", "<br />",)}
     </div>
   </div>
 </div>`);
