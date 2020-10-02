@@ -2,14 +2,13 @@ import '@testing-library/jest-dom';
 import { render, fireEvent } from '@testing-library/vue';
 import Vue from 'vue'
 import { BootstrapVue } from 'bootstrap-vue';
+import axiosMock from 'axios';
 
 import ContactForm from '@/views/Contact';
 
-import axiosMock from 'axios';
-
 Vue.use(BootstrapVue);
 
-test('Check if ContactForm renders correctly', () => {
+test('Check that the ContactForm renders correctly', () => {
   axiosMock.post.mockImplementationOnce(() =>
     Promise.resolve({
       data: { },
@@ -39,8 +38,8 @@ test('Check if ContactForm renders correctly', () => {
   expect(resetButton).toBeTruthy();
 });
 
-test('Check the reset button clears the input', async () => {
-  const { getByText, getByPlaceholderText, getByTestId, emitted } = render(ContactForm);
+test('Check that the submit button calls the formspree endpoint with the correct data', async () => {
+  const { getByText, getByPlaceholderText, getByTestId } = render(ContactForm);
 
   const fakeMessage = {
     name: 'test user',

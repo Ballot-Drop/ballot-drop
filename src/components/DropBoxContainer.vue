@@ -68,7 +68,8 @@
 
 <script>
 import GoogleMap from "@/components/Map";
-import { AIRTABLE_API_KEY, AIRTABLE_BASE } from '@/config';
+// import { AIRTABLE_API_KEY, AIRTABLE_BASE } from '@/config';
+import { airtable } from '@/airtable';
 
 export default {
   components: {GoogleMap},
@@ -96,22 +97,26 @@ export default {
   },
   methods: {
     getData() {
-      const Airtable = require('airtable');
-      const base = new Airtable({apiKey: AIRTABLE_API_KEY}).base(AIRTABLE_BASE);
       const locations = [];
-      base('Ballot Drop Off Locations').select({
-        filterByFormula: `County="${this.county_fips}"`,
-        sort: [
-          {field: 'City', direction: 'asc'}
-        ]
-      }).eachPage(function page(records, fetchNextPage) {
-        records.forEach(function(record) {
-          locations.push(record.fields);
+
+      const base = airtable();
+
+      base('Ballot Drop Off Locations')
+        .select({
+          filterByFormula: `County="${this.county_fips}"`,
+          sort: [
+            {field: 'City', direction: 'asc'}
+          ]
+        })
+        .eachPage(function page(records, fetchNextPage) {
+          records.forEach(function(record) {
+            locations.push(record.fields);
+          });
+          fetchNextPage();
+        }, function done(err){
+          if(err){console.error(err); return;}
         });
-        fetchNextPage();
-      }, function done(err){
-        if(err){console.error(err); return;}
-      });
+
       this.locations = locations;
     }
   },

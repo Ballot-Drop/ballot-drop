@@ -11,15 +11,13 @@
 
 <script>
 import StateList from "@/components/StateList";
+
 export default {
   name: 'BallotDrop',
   components: {StateList},
   props: {
     msg: String,
   },
-  mounted() {
-
-  }
 }
 </script>
 

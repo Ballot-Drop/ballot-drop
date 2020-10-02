@@ -19,7 +19,6 @@
             :answer="counties[selectedCounty][question.a]"
             :link="counties[selectedCounty][question.link]"
         />
-
       </div>
       <span v-else>{{ counties[selectedCounty]['County'] }} info coming soon!</span>
       <DropBoxContainer
@@ -44,13 +43,11 @@ export default {
       type: Array,
       required: true
     }
-
   },
   data: function () {
     return {
       selectedCounty: null,
       selectedCountyName: null,
-
     }
   },
   computed: {
@@ -73,8 +70,6 @@ export default {
       ];
 
       return questions.filter(question => this.counties[this.selectedCounty][question.a] !== undefined);
-
-
     }
   },
   methods: {
