@@ -85,6 +85,8 @@ export default {
     },
 
     getInfoWindowContent: function (marker) {
+      let directions = [marker.Address.replaceAll(" ", "+"), marker.City.replaceAll(" ","+"),
+          marker.['State (from County Absentee Voting Data)'],marker.Zip].join("+")
       return (`
 <div class="">
   <div class="card-content">
@@ -95,7 +97,10 @@ export default {
     </div>
     <div class="content">
       ${marker.Address} <br />
-      ${marker.City}, ${marker.['State (from County Absentee Voting Data)']} ${marker.Zip}
+      ${marker.City}, ${marker.['State (from County Absentee Voting Data)']} ${marker.Zip}<br />
+      <a href="https://www.google.com/maps?daddr=${directions}" target="_blank">
+        Get directions
+      </a>
       <hr />
       Hours: ${marker.Hours.replaceAll("\n", "<br />",)}
     </div>
