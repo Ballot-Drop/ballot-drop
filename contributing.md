@@ -24,4 +24,4 @@ Feel free to submit edits to this, the readme, and any aspect of the site.
 
 We have a huge need to collect, parse, and enter data. There are some PDFs that need parsing, sites that need scraping, and just general work. Some of the issues listed are tagged data, and there's an ongoing live list in [Slack](https://join.slack.com/t/ballotdrop/shared_invite/zt-hdeyo1vk-VarchL5nx0ok1NpMfZh0fQ).
 
-# Thanks for helpng save democracy!
+# Thanks for helping save democracy!
