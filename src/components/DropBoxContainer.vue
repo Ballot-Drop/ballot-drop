@@ -108,9 +108,10 @@ export default {
             {field: 'City', direction: 'asc'}
           ]
         })
-        .eachPage(function page(records, fetchNextPage) {
-          records.forEach(function(record) {
-            locations.push(record.fields);
+        .eachPage((records, fetchNextPage) => {
+          records.forEach((record) => {
+            const formattedRecord = this.formatData(record.fields);
+            locations.push(formattedRecord);
           });
           fetchNextPage();
         }, function done(err){
@@ -118,6 +119,18 @@ export default {
         });
 
       this.locations = locations;
+    },
+    formatData(record) {
+      const formattedRecord = {...record};
+      formattedRecord.City = this.titleCase(record.City);
+      formattedRecord.Address = this.titleCase(record.Address);
+      formattedRecord.Name = this.titleCase(record.Name);
+      return formattedRecord;
+    },
+    titleCase(str) {
+      return str.toLowerCase().split(' ').map(function(word) {
+        return word.replace(word[0], word[0].toUpperCase());
+          }).join(' ');
     }
   },
   watch: {
