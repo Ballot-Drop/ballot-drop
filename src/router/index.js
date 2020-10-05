@@ -43,7 +43,7 @@ const routes = [
         state_route: null
       },
       meta: {
-        title: route => `${route.params.state.replace("-", " ")} - Ballot Drop`,
+        title: route => `${route.params.state.replace(/-/g, " ")} - Ballot Drop`,
       },
     },
     {
@@ -53,19 +53,9 @@ const routes = [
       component: BallotDrop,
       meta: {
         title: route =>
-          `${route.params.county.replace("-", " ")}, ${route.params.state.replace("-", " ")} - Ballot Drop`,
+          `${route.params.county.replace(/-/g, " ")}, ${route.params.state.replace(/-/g, " ")} - Ballot Drop`,
       },
-    }
-
-  // {
-  //   path: '/:state', component: () => {
-  //     // console.log("~~")
-  //     // console.log(App.$refs);
-  //     // console.log(App);
-  //     // App.$broadcast('load-state', "test");
-  //     // App.$refs.main_app.loadState();
-  //   }
-  // }
+    },
 ]
 
 const router = new VueRouter({

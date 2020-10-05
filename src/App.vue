@@ -12,13 +12,10 @@
 </template>
 
 <script>
-import { airtable } from '@/airtable';
 
 export default {
   name: 'App',
-  components: {
-    // BallotDrop
-  },
+  components: {},
   props: {
     state_route: {type: String, required: false},
     county_route: {type: String, required: false},
@@ -28,37 +25,6 @@ export default {
       states: [],
     }
   },
-  mounted() {
-    // this.getData();
-  },
-  methods: {
-    getData: function() {
-      // todo: not currently in use
-      const base = airtable();
-
-      const stateData = [{}];
-
-      base('State Absentee Voting Data')
-        .select({
-          sort: [
-            {field: 'State/Territory', direction:'asc'}
-          ]
-        })
-        .eachPage(function page(records, fetchNextPage) {
-          records.forEach(function(record) {
-            stateData.push(record.fields);
-          });
-          fetchNextPage();
-        }, function done(err) {
-          if (err) {
-            console.error(err);
-            return;
-          }
-        });
-
-      this.states = stateData;
-    },
-  }
 }
 </script>
 
