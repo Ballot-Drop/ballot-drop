@@ -50,16 +50,12 @@ export default {
     },
     selectedState: function() {
       // Change route
-
       let stateRoute = this.$route.path.split("/")[1].replace("-", " ");
 
-      if (this.$route.name !== "County") {
+      if (this.stateName !== stateRoute) {
+        // only push to the path if the state has changed
         let path = "/" + this.stateName.replace(/\s/g, "-");
-
-        if (this.stateName !== stateRoute) {
-          // only push to the path if the state has changed  
-          this.$router.push({path: path});
-        }
+        this.$router.push({path: path});
       }
     }
   },
