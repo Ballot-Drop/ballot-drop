@@ -102,28 +102,34 @@ export default {
       }
     },
 
-    getInfoWindowContent: function (marker) {
-      let directions = [marker.Address.replaceAll(" ", "+"), marker.City.replaceAll(" ","+"),
-          marker.['State (from County Absentee Voting Data)'],marker.Zip].join("+")
+    getInfoWindowContent: function(marker) {
+      let directions = [
+        marker.Address.replaceAll(" ", "+"),
+        marker.City.replaceAll(" ", "+"),
+        marker.['State (from County Absentee Voting Data)'],
+        marker.Zip,
+      ].join("+");
+
       return (`
-<div class="">
-  <div class="card-content">
-    <div class="media">
-      <div class="media-content">
-        <strong>${marker.Name}</strong>
-      </div>
-    </div>
-    <div class="content">
-      ${marker.Address} <br />
-      ${marker.City}, ${marker.['State (from County Absentee Voting Data)']} ${marker.Zip}<br />
-      <a href="https://www.google.com/maps?daddr=${directions}" target="_blank">
-        Get directions
-      </a>
-      <hr />
-      Hours: ${marker.Hours.replaceAll("\n", "<br />",)}
-    </div>
-  </div>
-</div>`);
+        <div class="">
+          <div class="card-content">
+            <div class="media">
+              <div class="media-content">
+                <strong>${marker.Name}</strong>
+              </div>
+            </div>
+            <div class="content">
+              ${marker.Address} <br />
+              ${marker.City}, ${marker.['State (from County Absentee Voting Data)']} ${marker.Zip}<br />
+              <a href="https://www.google.com/maps?daddr=${directions}" target="_blank">
+                Get directions
+              </a>
+              <hr />
+              Hours: ${marker.Hours.replaceAll("\n", "<br />",)}
+            </div>
+          </div>
+        </div>`
+      );
     },
 
     closeInfoWindows: function() {
@@ -154,6 +160,5 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
 
 </style>

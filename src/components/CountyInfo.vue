@@ -55,7 +55,9 @@ export default {
       return this.questions.some(qa => this.counties[this.selectedCounty][qa.a] !== undefined);
     },
     countyName: function(){
-      if( ! this.selectedCounty ) return null;
+      if (!this.selectedCounty) {
+        return null;
+      }
       return this.counties[this.selectedCounty]["County"];
     },
     questions: function(){
@@ -76,24 +78,28 @@ export default {
     updateRouter() {
       let state = this.$route.fullPath.split("/")[1];
       this.$router.push({path:`/${state}/${this.countyName.replace(/\s/g, "-")}`});
-
     },
-    checkRoute(){
+    checkRoute() {
       // Check for county route
-      if( this.$route.params.state !== undefined && this.$route.params.county !== undefined) {
-        this.selectedStateName = this.$route.params.state.replace("-"," ");
-        this.selectedCountyName = this.$route.params.county.replace("-", " ");
-        let i=0;
-        for(i; i<this.counties.length; i++) {
-          if( this.counties[i]["County"] === this.selectedCountyName ) break;
+      if (this.$route.params.state !== undefined && this.$route.params.county !== undefined) {
+        this.selectedStateName = this.$route.params.state.replace(/-/g, " ");
+        this.selectedCountyName = this.$route.params.county.replace(/-/g, " ");
+
+        let i = 0;
+        for (i; i < this.counties.length; i++) {
+          if (this.counties[i]["County"] === this.selectedCountyName) {
+            break;
+          }
         }
+
         // County doesn't exist as spelled
-        if( i === this.counties.length ){
+        if (i === this.counties.length) {
           this.selectedCounty = 0;
           let path = `/${this.$route.params.state}`
           this.$router.push({path: path});
+        } else {
+          this.selectedCounty = i;
         }
-        else this.selectedCounty = i;
       }
       // Check for county route
     }
