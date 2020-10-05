@@ -15,6 +15,12 @@
           :position="{lat: parseFloat(m.lat), lng: parseFloat(m.lng)}"
           @click="toggleInfoWindow(m,index)">
       </gmap-marker>
+      <gmap-marker
+          key="currentPosition"
+          v-if="currentPosition"
+          :position="{lat: parseFloat(currentPosition.lat), lng: parseFloat(currentPosition.lng)}"
+          :icon="currentPositionIcon">
+      </gmap-marker>
 
       <gmap-info-window
           :options="infoOptions"
@@ -24,7 +30,6 @@
       >
         <div v-html="infoContent"></div>
       </gmap-info-window>
-
     </gmap-map>
   </div>
 </template>
@@ -62,9 +67,9 @@ export default {
           width: 0,
           height: -35
         }
-
-
-      }
+      },
+      currentPosition: null,
+      currentPositionIcon: { url: require("../assets/current_location.png")}
     }
   },
   methods: {
@@ -81,6 +86,19 @@ export default {
       else {
         this.infoWinOpen = true;
         this.currentMidx = idx;
+      }
+    },
+    getCurrentPosition() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            this.currentPosition = { lat: position.coords.latitude,
+              lng: position.coords.longitude, }
+          }
+        );
+      } else {
+        // Browser doesn't support Geolocation
+        return;
       }
     },
 
@@ -129,6 +147,7 @@ export default {
       );
 
     });
+    this.getCurrentPosition()
   }
 }
 </script>
