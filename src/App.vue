@@ -6,6 +6,16 @@
       <router-link to="/contact">Contact</router-link>
     </div>
     <router-view/>
+    <div id="flag" class="fixed-bottom"
+         @mouseover="flagHover = true"
+         @mouseleave="flagHover = false">
+      <b-icon-flag-fill v-if="flagHover"></b-icon-flag-fill>
+      <b-icon-flag v-else></b-icon-flag>
+    </div>
+    <span id="flagHover" class="fixed-bottom" v-if="flagHover">
+      See an issue on this page?<br />
+      Click here to let us know!
+    </span>
     <div id="footer">
     </div>
   </div>
@@ -23,6 +33,7 @@ export default {
   data: function() {
     return {
       states: [],
+      flagHover: false,
     }
   },
 }
@@ -42,5 +53,18 @@ export default {
 #footer {
   min-height: 50px;
   margin-top: 50px;
+}
+
+#flag, #flagHover {
+  left: unset;
+  right: 15px;
+}
+
+#flag {
+  cursor: pointer;
+}
+
+#flagHover {
+  bottom: 30px;
 }
 </style>
