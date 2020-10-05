@@ -8,25 +8,25 @@
         style="width:100%;  height: 100vh;"
         @click="closeInfoWindows()"
     >
-
       <gmap-marker
-          :key="index"
-          v-for="(m, index) in locations"
-          :position="{lat: parseFloat(m.lat), lng: parseFloat(m.lng)}"
-          @click="toggleInfoWindow(m,index)">
+        :key="index"
+        :position="{lat: parseFloat(m.lat), lng: parseFloat(m.lng)}"
+        v-for="(m, index) in locations"
+        v-bind:class="closestMarkerIndex === index ? 'closest' : ''"
+        @click="toggleInfoWindow(m,index)">
       </gmap-marker>
       <gmap-marker
-          key="currentPosition"
-          v-if="currentPosition"
-          :position="{lat: parseFloat(currentPosition.lat), lng: parseFloat(currentPosition.lng)}"
-          :icon="currentPositionIcon">
+        key="currentPosition"
+        v-if="currentPosition"
+        :position="{lat: parseFloat(currentPosition.lat), lng: parseFloat(currentPosition.lng)}"
+        :icon="currentPositionIcon">
       </gmap-marker>
 
       <gmap-info-window
-          :options="infoOptions"
-          :position="infoWindowPos"
-          :opened="infoWinOpen"
-          @closeclick="infoWinOpen=false"
+        :options="infoOptions"
+        :position="infoWindowPos"
+        :opened="infoWinOpen"
+        @closeclick="infoWinOpen=false"
       >
         <div v-html="infoContent"></div>
       </gmap-info-window>
@@ -36,21 +36,22 @@
 
 <script>
 
-
-
 export default {
   name: 'GoogleMap',
   props: {
-    // county_fips: String,
+    closestMarkerIndex: {
+      type: Number,
+    },
+    currentPosition: {
+      type: Object,
+    },
     locations: {
       type: Array,
       required: true
-    }
+    },
   },
-  data: function(){
+  data: function() {
     return {
-      // locations: null,
-
       //a default center for the map
       center: {lat: 39.7392, lng: -104.9903},
       map: null,
@@ -68,8 +69,14 @@ export default {
           height: -35
         }
       },
-      currentPosition: null,
-      currentPositionIcon: { url: require("../assets/current_location.png")}
+      currentPositionIcon: { url: require("../assets/current_location.png")},
+      // markerOptions: {
+      //   // url: require("../assets/current_location.png"),
+      //   fillColor: "yellow",
+      //   fillOpacity: 1,
+      //   scale: .1,
+      //   strokeColor: "black",
+      // },
     }
   },
   methods: {
@@ -77,8 +84,7 @@ export default {
       this.infoWindowPos = {lat: parseFloat(marker.lat), lng: parseFloat(marker.lng)};
       this.infoContent = this.getInfoWindowContent(marker);
 
-
-      //check if its the same marker that was selected if yes toggle
+      //check if it's the same marker that was selected. if yes, toggle
       if (this.currentMidx == idx) {
         this.infoWinOpen = !this.infoWinOpen;
       }
@@ -88,20 +94,19 @@ export default {
         this.currentMidx = idx;
       }
     },
-    getCurrentPosition() {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-          (position) => {
-            this.currentPosition = { lat: position.coords.latitude,
-              lng: position.coords.longitude, }
-          }
-        );
-      } else {
-        // Browser doesn't support Geolocation
-        return;
-      }
-    },
-
+    // getCurrentPosition() {
+    //   if (navigator.geolocation) {
+    //     navigator.geolocation.getCurrentPosition(
+    //       (position) => {
+    //         this.currentPosition = { lat: position.coords.latitude,
+    //           lng: position.coords.longitude, }
+    //       }
+    //     );
+    //   } else {
+    //     // Browser doesn't support Geolocation
+    //     return;
+    //   }
+    // },
     getInfoWindowContent: function(marker) {
       let directions = [
         marker.Address.replaceAll(" ", "+"),
@@ -151,14 +156,13 @@ export default {
       },
         100
       );
-
     });
-    this.getCurrentPosition()
   }
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
+.closest {
+  color: green;
+}
 </style>

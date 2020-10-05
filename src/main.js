@@ -15,7 +15,8 @@ Vue.use(IconsPlugin)
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
-Vue.config.productionTip = false
+Vue.config.productionTip = process.env.NODE_ENV !== "production";
+console.log("process.env.NODE_ENV: ", process.env.NODE_ENV);
 
 Vue.use(VueAnalytics, {
   id: 'UA-178886586-1',
@@ -25,7 +26,7 @@ Vue.use(VueAnalytics, {
 Vue.use(VueGoogleMaps, {
   load: {
     key: GOOGLE_MAPS_API_KEY,
-    libraries: 'places', // This is required if you use the Autocomplete plugin
+    libraries: 'places,geometry', // This is required if you use the Autocomplete plugin
     // OR: libraries: 'places,drawing'
     // OR: libraries: 'places,drawing,visualization'
     // (as you require)
