@@ -47,12 +47,20 @@
 import axios from "axios";
 
 export default {
+  props: {
+    currentPage: {
+      type: String,
+      required: false,
+      default: "Contact",
+    }
+  },
   data() {
     return {
       form: {
         email: '',
         name: '',
         message: '',
+        page: this.currentPage,
       },
       success: false,
     }
