@@ -68,7 +68,6 @@
 
 <script>
 import GoogleMap from "@/components/Map";
-// import { AIRTABLE_API_KEY, AIRTABLE_BASE } from '@/config';
 import { airtable } from '@/airtable';
 
 export default {

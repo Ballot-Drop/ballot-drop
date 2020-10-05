@@ -55,17 +55,7 @@ const routes = [
         title: route =>
           `${route.params.county.replace(/-/g, " ")}, ${route.params.state.replace(/-/g, " ")} - Ballot Drop`,
       },
-    }
-
-  // {
-  //   path: '/:state', component: () => {
-  //     // console.log("~~")
-  //     // console.log(App.$refs);
-  //     // console.log(App);
-  //     // App.$broadcast('load-state', "test");
-  //     // App.$refs.main_app.loadState();
-  //   }
-  // }
+    },
 ]
 
 const router = new VueRouter({
