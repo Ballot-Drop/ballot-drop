@@ -45,6 +45,7 @@ test('Check that the submit button calls the formspree endpoint with the correct
     name: 'test user',
     email: 'test@example.com',
     message: 'an important message',
+    page: 'Contact'
   }
 
   const emailInput = getByPlaceholderText("Enter email");
