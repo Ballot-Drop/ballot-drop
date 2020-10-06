@@ -1,6 +1,6 @@
 <template v-if=state>
   <div>
-    <h2 class="bg-dark text-light text-center">{{state["State/Territory"]}}</h2>
+    <h2 class="bg-dark text-light text-center">Ballot information for {{state["State/Territory"]}}</h2>
     <span class="info-section">
       <QA
         v-for="(question, index) in questions"

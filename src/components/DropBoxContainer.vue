@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-if="locations && locations.length">
-      <h3>Ballot Drop Locations</h3>
+      <h3>Ballot Drop Locations in {{ county_name }}</h3>
 
       <GoogleMap
         id="map"
@@ -75,6 +75,7 @@ export default {
   name: 'DropBoxContainer',
   props: {
     county_fips: String,
+    county_name: String,
   },
   data: function() {
     return {
