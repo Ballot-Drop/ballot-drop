@@ -106,9 +106,6 @@ export default {
           }
         }
 
-        console.log("closestMarkerIndex ", closestMarkerIndex);
-        console.log("closestDistance ", closestDistance);
-        console.log("closestMarker ", this.locations[closestMarkerIndex]);
         this.closestMarkerIndex = closestMarkerIndex;
       });
     },

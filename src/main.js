@@ -16,7 +16,6 @@ import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 Vue.config.productionTip = process.env.NODE_ENV !== "production";
-console.log("process.env.NODE_ENV: ", process.env.NODE_ENV);
 
 Vue.use(VueAnalytics, {
   id: 'UA-178886586-1',
