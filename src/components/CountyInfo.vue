@@ -25,7 +25,7 @@
           id="drop_box"
           v-if="selectedCounty"
           :county_fips="counties[selectedCounty]['Area FIPS']"
-          :county_name="selectedCountyName"
+          :county_name="countyName"
       />
     </div>
 
