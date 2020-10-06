@@ -9,7 +9,7 @@
     "test": "jest --env=jest-environment-jsdom-sixteen"
   },
   "dependencies": {
-    "airtable": "^0.10.0",
+    "airtable": "0.9.0",
     "axios": "^0.20.0",
     "bootstrap": "^4.5.2",
     "bootstrap-vue": "^2.17.0",
