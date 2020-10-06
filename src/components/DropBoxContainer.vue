@@ -9,6 +9,7 @@
         :closestMarkerIndex="closestMarkerIndex"
         :currentPosition="currentPosition"
         :locations="locations"
+        @findNearestMarker="findClosestMarker"
       />
 
       <b-form-group
@@ -69,6 +70,7 @@
 </template>
 
 <script>
+import { gmapApi } from 'vue2-google-maps';
 import { airtable } from '@/airtable';
 import GoogleMap from "@/components/Map";
 
@@ -108,7 +110,7 @@ export default {
               lng: position.coords.longitude,
             }
 
-            this.findClosestMarker();
+            // this.findClosestMarker();
           }
         );
       } else {
@@ -116,109 +118,60 @@ export default {
         return;
       }
     },
-    // async getClosestLocation() {
-    //   let closestMarkerIndex = -1;
-    //   let closestDistance = Number.MAX_VALUE;
-
-    //   for (let [index, loc] of this.locations.entries()) {
-    //     console.log("loc: ", loc.lat, loc.lng);
-    //     let locationCoords = new window.google.maps.LatLng({
-    //       lat: parseFloat(loc.lat),
-    //       lng: parseFloat(loc.lng),
-    //     });
-
-    //     let currentPositionCoords = new window.google.maps.LatLng({ 
-    //       lat: this.currentPosition.lat, 
-    //       lng: this.currentPosition.lng
-    //     });
-
-    //     let distance = window.google.maps.geometry.spherical.computeDistanceBetween(
-    //       currentPositionCoords,
-    //       locationCoords,
-    //     );
-
-    //     if (distance < closestDistance) {
-    //       console.log("closer: ", distance, loc);
-
-    //       closestMarkerIndex = index;
-    //       closestDistance = distance;
-
-
-    //     }
-    //   }
-    // },
     findClosestMarker() {
-      if (!this.currentPosition || !this.currentPosition.lat || !this.currentPosition.lng) {
-        console.log("no currentPosition: ", this.currentPosition);
-        return;
-      }
+      console.log("called findClosestMarker");
 
-      if (!this.locations) {
-        console.log("no locations: ", this.locations.length);
-        return;
-      }
+      this.$nextTick(() => {
+        let gmaps = gmapApi()?.maps;
 
-      if (!window.google) {
-        console.log("window.google: ", window.google);
-        return;
-      }
+        if (!gmaps) {
+          console.log("gmaps: ", gmaps);
+          return;
+        }
 
-      console.log("currentPosition: ", this.currentPosition);
+        if (!this.currentPosition || !this.currentPosition.lat || !this.currentPosition.lng) {
+          console.log("no currentPosition: ", this.currentPosition);
+          return;
+        }
 
-      // console.log("window.gooogle: ", window.google);
+        if (!this.locations) {
+          console.log("no locations: ", this.locations.length);
+          return;
+        }
 
-      let currentPositionCoords = new window.google.maps.LatLng({
-        lat: this.currentPosition.lat,
-        lng: this.currentPosition.lng
-      });
-
-      console.log("currentPositionCoords: ", currentPositionCoords);
-
-      // let res = this.locations.reduce(function (prev, loc) {
-      //   let locationCoords = new window.google.maps.LatLng({
-      //     lat: parseFloat(loc.lat),
-      //     lng: parseFloat(loc.lng),
-      //   });
-
-      //   var cpos = google.maps.geometry.spherical.computeDistanceBetween(currentPositionCoords, locationCoords);
-      //   var ppos = google.maps.geometry.spherical.computeDistanceBetween(currentPositionCoords, prev.position);
-
-      //   return cpos < ppos ? curr : prev;
-      // });
-
-      let closestMarkerIndex = -1;
-      let closestDistance = Number.MAX_VALUE;
-
-      for (let [index, loc] of this.locations.entries()) {
-        console.log("loc: ", loc.lat, loc.lng);
-        let locationCoords = new window.google.maps.LatLng({
-          lat: parseFloat(loc.lat),
-          lng: parseFloat(loc.lng),
-        });
-
-        let currentPositionCoords = new window.google.maps.LatLng({ 
-          lat: this.currentPosition.lat, 
+        let currentPositionCoords = new gmaps.LatLng({
+          lat: this.currentPosition.lat,
           lng: this.currentPosition.lng
         });
 
-        let distance = window.google.maps.geometry.spherical.computeDistanceBetween(
-          currentPositionCoords,
-          locationCoords,
-        );
+        console.log("currentPositionCoords: ", currentPositionCoords);
 
-        if (distance < closestDistance) {
-          console.log("closer: ", distance, loc);
+        let closestMarkerIndex = -1;
+        let closestDistance = Number.MAX_VALUE;
 
-          closestMarkerIndex = index;
-          closestDistance = distance;
+        for (let [index, loc] of this.locations.entries()) {
+          let locationCoords = new gmaps.LatLng({
+            lat: parseFloat(loc.lat),
+            lng: parseFloat(loc.lng),
+          });
+
+          let distance = gmaps.geometry.spherical.computeDistanceBetween(
+            currentPositionCoords,
+            locationCoords,
+          );
+
+          if (distance < closestDistance) {
+            closestMarkerIndex = index;
+            closestDistance = distance;
+          }
         }
-      }
 
-      console.log("closestMarkerIndex ", closestMarkerIndex);
-      console.log("closestDistance ", closestDistance);
+        console.log("closestMarkerIndex ", closestMarkerIndex);
+        console.log("closestDistance ", closestDistance);
 
-      console.log("closestMarker ", this.locations[closestMarkerIndex]);
-      this.closestMarkerIndex = closestMarkerIndex;
+        console.log("closestMarker ", this.locations[closestMarkerIndex]);
+        this.closestMarkerIndex = closestMarkerIndex;
+      });
     },
     getData() {
       const locations = [];

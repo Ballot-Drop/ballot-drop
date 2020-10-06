@@ -153,9 +153,10 @@ export default {
       // Deal with zoom delay on load
       setTimeout(function(){
         if (map.getZoom() > 18 ) map.setZoom(16);
-      },
-        100
-      );
+      }, 100);
+
+      // any time the map is (re)rendered, emit the event to find the nearest marker
+      this.$emit("findNearestMarker");
     });
   }
 }
