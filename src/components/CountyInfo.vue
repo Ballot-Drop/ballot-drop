@@ -10,7 +10,7 @@
       </option>
     </select>
     <div v-if="selectedCounty">
-      <h3 class="bg-dark text-light mt-3 mb-3">{{ counties[selectedCounty]["County"] }}</h3>
+      <h3 class="bg-dark text-light mt-3 mb-3 text-center">Ballot drop off information for {{ counties[selectedCounty]["County"] }}</h3>
       <div v-if="anyData">
         <QA
             v-for="(question, index) in questions"
@@ -25,6 +25,7 @@
           id="drop_box"
           v-if="selectedCounty"
           :county_fips="counties[selectedCounty]['Area FIPS']"
+          :county_name="countyName"
       />
     </div>
 
@@ -68,7 +69,7 @@ export default {
         {q: "Website", a: "County Election Office Website", link: "County Election Office Website"},
         {q: "County Election Office Hours of Operation", a: "County Election Office Hours of Operation (M-F)"},
         {q: "Ballot Drop Off Locations", a: "Are Ballot Drop Boxes Available?"},
-        {q: "Where Can Absentee Ballots be Dropped Off?", a: "Where Can Absentee Ballots be Dropped Off?"},
+        {q: `Where Can Absentee Ballots be Dropped Off in ${this.selectedCountyName}?`, a: "Where Can Absentee Ballots be Dropped Off?"},
       ];
 
       return questions.filter(question => this.counties[this.selectedCounty][question.a] !== undefined);
