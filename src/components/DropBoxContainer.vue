@@ -133,8 +133,6 @@ export default {
       }
     },
     findClosestMarker() {
-      console.log("called findClosestMarker");
-
       this.$nextTick(() => {
         let gmaps = gmapApi()?.maps;
 
@@ -149,7 +147,6 @@ export default {
         }
 
         if (!this.locations) {
-          console.log("no locations: ", this.locations.length);
           return;
         }
 
@@ -181,7 +178,6 @@ export default {
 
         console.log("closestMarkerIndex ", closestMarkerIndex);
         console.log("closestDistance ", closestDistance);
-
         console.log("closestMarker ", this.locations[closestMarkerIndex]);
         this.closestMarkerIndex = closestMarkerIndex;
       });

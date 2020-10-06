@@ -140,8 +140,7 @@ export default {
     otherLocations: function() {
       // this is for all locations that are not the closest one to the user's geolocation
       if (this.closestMarkerIndex > -1) {
-        let filteredLocs = this.locations.filter((loc, i) => i !== this.closestMarkerIndex);
-        return filteredLocs;
+        return this.locations.filter((loc, i) => i !== this.closestMarkerIndex);
       }
       // there was not a closest location, so return all locations
       return this.locations;
