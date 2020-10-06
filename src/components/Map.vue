@@ -1,4 +1,3 @@
-
 <template>
   <div>
     <gmap-map
@@ -77,8 +76,8 @@ export default {
           height: -35
         }
       },
-      closestMarkerIcon: { url: require("../assets/current_location.png")},
-      currentPositionIcon: { url: require("../assets/current_location.png")},
+      closestMarkerIcon: { url: require("@/assets/blue-dot.png") },
+      currentPositionIcon: { url: require("@/assets/current_location.png") },
     }
   },
   methods: {
