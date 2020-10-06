@@ -61,6 +61,16 @@
             </ul>
           </b-card>
         </template>
+
+        <template #cell(Name)="data">
+          {{ titleCase(data.item.Name) }}
+        </template>
+        <template #cell(City)="data">
+          {{ titleCase(data.item.City) }}
+        </template>
+        <template #cell(Address)="data">
+          {{ titleCase(data.item.Address) }}
+        </template>
       </b-table>
     </div>
   </div>
@@ -109,8 +119,7 @@ export default {
         })
         .eachPage((records, fetchNextPage) => {
           records.forEach((record) => {
-            const formattedRecord = this.formatData(record.fields);
-            locations.push(formattedRecord);
+            locations.push(record.fields);
           });
           fetchNextPage();
         }, function done(err){
@@ -119,17 +128,11 @@ export default {
 
       this.locations = locations;
     },
-    formatData(record) {
-      const formattedRecord = {...record};
-      formattedRecord.City = this.titleCase(record.City);
-      formattedRecord.Address = this.titleCase(record.Address);
-      formattedRecord.Name = this.titleCase(record.Name);
-      return formattedRecord;
-    },
     titleCase(str) {
-      return str.toLowerCase().split(' ').map(function(word) {
-        return word.replace(word[0], word[0].toUpperCase());
-          }).join(' ');
+      if (str)
+        return str.toLowerCase().split(' ').map(function(word) {
+          return word.replace(word[0], word[0].toUpperCase());
+            }).join(' ');
     }
   },
   watch: {
