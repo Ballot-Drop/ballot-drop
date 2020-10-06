@@ -2,25 +2,33 @@
 <template>
   <div>
     <gmap-map
-        ref="gmap"
-        :center="center"
-        :zoom="12"
-        style="width:100%;  height: 100vh;"
-        @click="closeInfoWindows()"
+      ref="gmap"
+      :center="center"
+      :zoom="12"
+      style="width:100%;  height: 100vh;"
+      @click="closeInfoWindows()"
     >
       <gmap-marker
+        key="closestLocation"
+        v-if="closestLocation"
+        :position="{lat: parseFloat(closestLocation.lat), lng: parseFloat(closestLocation.lng)}"
+        :icon="closestMarkerIcon"
+        @click="toggleInfoWindow(closestLocation, closestMarkerIndex)"
+      />
+
+      <gmap-marker
         :key="index"
-        :position="{lat: parseFloat(m.lat), lng: parseFloat(m.lng)}"
-        v-for="(m, index) in locations"
-        v-bind:class="closestMarkerIndex === index ? 'closest' : ''"
-        @click="toggleInfoWindow(m,index)">
-      </gmap-marker>
+        :position="{lat: parseFloat(loc.lat), lng: parseFloat(loc.lng)}"
+        v-for="(loc, index) in otherLocations"
+        @click="toggleInfoWindow(loc, index)"
+      />
+
       <gmap-marker
         key="currentPosition"
         v-if="currentPosition"
         :position="{lat: parseFloat(currentPosition.lat), lng: parseFloat(currentPosition.lng)}"
-        :icon="currentPositionIcon">
-      </gmap-marker>
+        :icon="currentPositionIcon"
+      />
 
       <gmap-info-window
         :options="infoOptions"
@@ -69,14 +77,8 @@ export default {
           height: -35
         }
       },
+      closestMarkerIcon: { url: require("../assets/current_location.png")},
       currentPositionIcon: { url: require("../assets/current_location.png")},
-      // markerOptions: {
-      //   // url: require("../assets/current_location.png"),
-      //   fillColor: "yellow",
-      //   fillOpacity: 1,
-      //   scale: .1,
-      //   strokeColor: "black",
-      // },
     }
   },
   methods: {
@@ -94,19 +96,6 @@ export default {
         this.currentMidx = idx;
       }
     },
-    // getCurrentPosition() {
-    //   if (navigator.geolocation) {
-    //     navigator.geolocation.getCurrentPosition(
-    //       (position) => {
-    //         this.currentPosition = { lat: position.coords.latitude,
-    //           lng: position.coords.longitude, }
-    //       }
-    //     );
-    //   } else {
-    //     // Browser doesn't support Geolocation
-    //     return;
-    //   }
-    // },
     getInfoWindowContent: function(marker) {
       let directions = [
         marker.Address.replaceAll(" ", "+"),
@@ -141,7 +130,23 @@ export default {
       this.infoWinOpen = false;
     }
   },
-
+  computed: {
+    closestLocation: function() {
+      if (this.locations.length && this.closestMarkerIndex > -1) {
+        return this.locations[this.closestMarkerIndex];
+      }
+      return null;
+    },
+    otherLocations: function() {
+      // this is for all locations that are not the closest one to the user's geolocation
+      if (this.closestMarkerIndex > -1) {
+        let filteredLocs = this.locations.filter((loc, i) => i !== this.closestMarkerIndex);
+        return filteredLocs;
+      }
+      // there was not a closest location, so return all locations
+      return this.locations;
+    },
+  },
   mounted() {
     this.$refs.gmap.$mapPromise.then((map) => {
       const bounds = new window.google.maps.LatLngBounds()
@@ -151,11 +156,13 @@ export default {
       map.fitBounds(bounds);
 
       // Deal with zoom delay on load
-      setTimeout(function(){
-        if (map.getZoom() > 18 ) map.setZoom(16);
+      setTimeout(function() {
+        if (map.getZoom() > 18) {
+          map.setZoom(16);
+        }
       }, 100);
 
-      // any time the map is (re)rendered, emit the event to find the nearest marker
+      // any time the map is (re)rendered, emit the `findNearestMarker` event to find the nearest marker
       this.$emit("findNearestMarker");
     });
   }

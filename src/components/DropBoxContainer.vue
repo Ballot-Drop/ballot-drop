@@ -110,7 +110,10 @@ export default {
               lng: position.coords.longitude,
             }
 
-            // this.findClosestMarker();
+            // the user could consent to using their geolocation after the map and markers have already rendered.
+            // because of this, we need to call `findClosestMarker` after they give consent to use their geolocation
+            // so the map will rerender with the updated `closestMarkerIndex` and `currentPosition` props
+            this.findClosestMarker();
           }
         );
       } else {
@@ -125,12 +128,12 @@ export default {
         let gmaps = gmapApi()?.maps;
 
         if (!gmaps) {
-          console.log("gmaps: ", gmaps);
+          console.error("error loading the gmaps library: ", gmaps);
           return;
         }
 
         if (!this.currentPosition || !this.currentPosition.lat || !this.currentPosition.lng) {
-          console.log("no currentPosition: ", this.currentPosition);
+          console.error("no currentPosition: ", this.currentPosition);
           return;
         }
 
@@ -144,11 +147,10 @@ export default {
           lng: this.currentPosition.lng
         });
 
-        console.log("currentPositionCoords: ", currentPositionCoords);
-
         let closestMarkerIndex = -1;
         let closestDistance = Number.MAX_VALUE;
 
+        // compare the distance from the user's location to each of the dropboxes (markers)
         for (let [index, loc] of this.locations.entries()) {
           let locationCoords = new gmaps.LatLng({
             lat: parseFloat(loc.lat),
