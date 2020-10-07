@@ -12,7 +12,7 @@
     <div v-if="selectedCounty">
       <h3 class="bg-dark text-light mt-3 mb-3 text-center">Ballot drop off information for {{ counties[selectedCounty]["County"] }}</h3>
       <div v-if="anyData">
-        <QA
+        <QuestionAnswer
             v-for="(question, index) in questions"
             v-bind:key="index"
             :question=question.q
@@ -33,12 +33,12 @@
 </template>
 
 <script>
-import QA from "@/components/QA"
+import QuestionAnswer from "@/components/QuestionAnswer"
 import DropBoxContainer from "@/components/DropBoxContainer";
 
 export default {
   name: 'CountyInfo',
-  components: {QA, DropBoxContainer},
+  components: {QuestionAnswer, DropBoxContainer},
   props: {
     counties: {
       type: Array,
@@ -53,7 +53,7 @@ export default {
   },
   computed: {
     anyData: function () {
-      return this.questions.some(qa => this.counties[this.selectedCounty][qa.a] !== undefined);
+      return this.questions.some(questionanswer => this.counties[this.selectedCounty][questionanswer.a] !== undefined);
     },
     countyName: function(){
       if (!this.selectedCounty) {
