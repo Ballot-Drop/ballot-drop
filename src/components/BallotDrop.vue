@@ -1,7 +1,7 @@
 <template>
   <div class="hello">
     <div id="stateSelector" class="text-center">
-      <img alt="Be Safe and Vote" src="../assets/be_safe_and_vote.png" class="img-fluid">
+      <img alt="Be Safe and Vote" src="../assets/be_safe_and_vote.webp" class="img-fluid">
       <h1>{{ msg }}</h1>
       <h2>Save Democracy!</h2>
     </div>
