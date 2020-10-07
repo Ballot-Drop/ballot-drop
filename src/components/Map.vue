@@ -7,6 +7,7 @@
       style="width:100%;  height: 100vh;"
       @click="closeInfoWindows()"
     >
+      <!-- this marker will show the closest marker to the user's location if known -->
       <gmap-marker
         key="closestLocation"
         v-if="closestLocation"
@@ -22,6 +23,7 @@
         @click="toggleInfoWindow(loc, index)"
       />
 
+      <!-- this marker will show the user's location on the map (if the location is know and it fits in the map's bounds) -->
       <gmap-marker
         key="currentPosition"
         v-if="currentPosition"
@@ -168,7 +170,5 @@ export default {
 </script>
 
 <style scoped>
-.closest {
-  color: green;
-}
+
 </style>
