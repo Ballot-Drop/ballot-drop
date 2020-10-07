@@ -3,6 +3,28 @@
     <div v-if="locations && locations.length">
       <h3>Ballot Drop Locations in {{ county_name }}</h3>
 
+
+      <p v-if="place">selected location: {{ place.formatted_address }}</p>
+      <p v-if="place">place: {{ place.geometry.location }}</p>
+
+      <b-form-group
+        label="Enter your address"
+        label-size="md"
+        label-cols="auto"
+        class="mb-2 mt-4"
+      >
+        <b-input-group size="md">
+          <GmapAutocomplete
+            @place_changed="setPlace"
+            class="form-control"
+            :options="{ fields: ['geometry', 'formatted_address', 'address_components'] }"
+          />
+          <!-- <b-input-group-append>
+            <b-button @click="setPlace">Use address</b-button>
+          </b-input-group-append> -->
+        </b-input-group>
+      </b-form-group>
+
       <GoogleMap
         id="map"
         v-if="locations"
@@ -59,6 +81,7 @@ export default {
       currentPosition: null,
       locations: null,
       filter: null,
+      place: null,
     }
   },
   methods: {
@@ -151,6 +174,17 @@ export default {
         });
 
       this.locations = locations;
+    },
+    setPlace(place) {
+      // set the place and the currentPosition coordinates
+      this.place = place;
+      this.currentPosition = {
+        lat: place.geometry.location.lat(),
+        lng: place.geometry.location.lng(),
+      }
+
+      console.log("this.place: ", this.place);
+      this.findClosestMarker();
     },
   },
   watch: {
