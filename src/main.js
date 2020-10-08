@@ -1,3 +1,8 @@
+console.log(process.env.NODE_ENV);
+if (process.env.NODE_ENV !== "development" && location.protocol !== "https:") {
+  location.protocol = "https:";
+}
+
 import Vue from 'vue'
 import VueRouter from 'vue'
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
