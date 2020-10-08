@@ -1,11 +1,19 @@
 <template>
   <div>
-    County info
-    <select v-model="selectedCounty" v-bind:selected=selectedCounty @change="updateRouter()">
+    <label for="county-select" class="mr-1">
+      County info
+    </label>
+    <select
+      v-model="selectedCounty"
+      v-bind:selected=selectedCounty
+      @change="updateRouter()"
+      id="county-select"
+      name="county"
+    >
       <option
-          v-for="(county, index) in counties"
-          :key="index"
-          :value="index"
+        v-for="(county, index) in counties"
+        :key="index"
+        :value="index"
       >{{ county["County"] }}
       </option>
     </select>
@@ -13,22 +21,21 @@
       <h3 class="bg-dark text-light mt-3 mb-3 text-center">Ballot drop off information for {{ counties[selectedCounty]["County"] }}</h3>
       <div v-if="anyData">
         <QuestionAnswer
-            v-for="(question, index) in questions"
-            v-bind:key="index"
-            :question=question.q
-            :answer="counties[selectedCounty][question.a]"
-            :link="counties[selectedCounty][question.link]"
+          v-for="(question, index) in questions"
+          v-bind:key="index"
+          :question=question.q
+          :answer="counties[selectedCounty][question.a]"
+          :link="counties[selectedCounty][question.link]"
         />
       </div>
       <span v-else>{{ counties[selectedCounty]['County'] }} info coming soon!</span>
       <DropBoxContainer
-          id="drop_box"
-          v-if="selectedCounty"
-          :county_fips="counties[selectedCounty]['Area FIPS']"
-          :county_name="countyName"
+        id="drop_box"
+        v-if="selectedCounty"
+        :county_fips="counties[selectedCounty]['Area FIPS']"
+        :county_name="countyName"
       />
     </div>
-
   </div>
 </template>
 

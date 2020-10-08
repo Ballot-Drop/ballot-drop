@@ -1,9 +1,12 @@
 <template>
   <div>
     <div class="text-center">
-      Worried about the post office delivering your ballot on time?<br />
-      Pick your state:
-      <select v-model=selectedState @change="getCountyData()">
+      Worried about the post office delivering your ballot on time?
+      <br />
+      <label for="state-select" class="mr-1">
+        Pick your state:
+      </label>
+      <select v-model=selectedState @change="getCountyData()" id="state-select" name="states">
         <option
           v-for="(state, index) in states"
           :key="index"
