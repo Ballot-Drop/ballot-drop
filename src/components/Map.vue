@@ -121,7 +121,7 @@ export default {
             <div class="content">
               ${marker.Address} <br />
               ${marker.City}, ${marker.['State (from County Absentee Voting Data)']} ${marker.Zip}<br />
-              <a href="https://www.google.com/maps?daddr=${directions}" target="_blank">
+              <a href="https://www.google.com/maps?daddr=${directions}" target="_blank" rel="noreferrer">
                 Get directions
               </a>
               <hr />

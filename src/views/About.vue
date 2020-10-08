@@ -14,7 +14,7 @@
 
     <h3>Want to Help?</h3>
     <p>Ballot Drop is a non-partisan volunteer effort. We’d love for you to get involved to help  source and update data, as well as improve the functionality of the site.
-      <a href="https://join.slack.com/t/ballotdrop/shared_invite/zt-hdeyo1vk-VarchL5nx0ok1NpMfZh0fQ" target="_blank">Join our slack to get started!</a>
+      <a href="https://join.slack.com/t/ballotdrop/shared_invite/zt-hdeyo1vk-VarchL5nx0ok1NpMfZh0fQ" target="_blank" rel="noreferrer">Join our slack to get started!</a>
 
     <h3>Questions?</h3>
     <router-link to="/contact">Head over to the contact page.</router-link>
@@ -22,21 +22,21 @@
     <h3>Let’s Be Social!</h3>
     <div class="row">
       <div class="col-4 social">
-        <a href="http://instagram.com/ballotdrop" target="_blank">
+        <a href="http://instagram.com/ballotdrop" target="_blank" rel="noreferrer">
           <img src="../assets/instagram.svg" alt="@ballotdrop">
           @ballotdrop on Instagram
         </a>
       </div>
 
       <div class="col-4 social">
-        <a href="https://www.facebook.com/ballotdrop" target="_blank">
+        <a href="https://www.facebook.com/ballotdrop" target="_blank" rel="noreferrer">
           <img src="../assets/facebook.svg" alt="@ballotdrop">
           @ballotdrop on Facebook
         </a>
       </div>
 
       <div class="col-4 social">
-        <a href="https://twitter.com/ballotdrop" target="_blank">
+        <a href="https://twitter.com/ballotdrop" target="_blank" rel="noreferrer">
           <img src="../assets/twitter.svg" alt="@ballotdrop">
           @ballotdrop on Twitter
         </a>

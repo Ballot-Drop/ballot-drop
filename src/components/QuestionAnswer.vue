@@ -2,7 +2,7 @@
   <div class="row mb-5 align-items-center">
     <div class="question col-sm-4 text-xs-left text-sm-right font-weight-bold">{{question}}</div>
     <div class="answer col-sm-8 text-left">
-      <a v-if="link" :href="link" target="_blank">{{answer}}</a>
+      <a v-if="link" :href="link" target="_blank" rel="noreferrer">{{answer}}</a>
       <span v-else-if="question === 'Office Address'" v-html="mapped_answer"></span>
       <span v-else v-html="linked_answer"></span>
     </div>
@@ -23,21 +23,19 @@ export default {
     }
   },
   computed: {
-    linked_answer: function(){
+    linked_answer: function() {
       return this.answer.replace(/(http.*)\b/, "<a href='$1' target='_blank'>$1</a>")
     },
     mapped_answer: function(){
-      return `<a href='https://maps.google.com/?q=${this.answer.replaceAll(" ", "+")}' target="_blank">
+      return `<a href='https://maps.google.com/?q=${this.answer.replaceAll(" ", "+")}' target="_blank" rel="noreferrer">
                     ${this.answer} <small>map</small></a>`;
     }
   }
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
   .answer {
     word-wrap: break-word;
   }
-
 </style>
