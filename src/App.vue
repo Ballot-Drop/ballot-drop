@@ -7,9 +7,9 @@
     </div>
     <router-view/>
     <div id="flag" class="fixed-bottom"
-         @mouseover="flagHover = true"
-         @mouseleave="flagHover = false"
-         v-b-modal.flag-modal
+      @mouseover="flagHover = true"
+      @mouseleave="flagHover = false"
+      v-b-modal.flag-modal
     >
       <b-icon-flag-fill v-if="flagHover"></b-icon-flag-fill>
       <b-icon-flag v-else></b-icon-flag>
@@ -55,9 +55,7 @@ export default {
   color: #2c3e50;
   margin-top: 60px;
 }
-#nav {
-  margin-bottom: 25px;
-}
+
 #footer {
   min-height: 50px;
   margin-top: 50px;
@@ -77,8 +75,23 @@ export default {
   bottom: 45px;
 }
 
-@media only screen and (max-width: 400px) {
+#nav {
+  margin-bottom: 25px;
+}
 
+#nav a.router-link-exact-active {
+  text-decoration: underline;
+}
+
+#nav a {
+  color: #105F83;
+}
+
+#nav a:hover {
+  cursor: pointer;
+}
+
+@media only screen and (max-width: 400px) {
   #flag, #flagHover {
     right: 5px;
     bottom: 5px;
