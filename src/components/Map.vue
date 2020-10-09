@@ -1,7 +1,5 @@
 <template>
   <div>
-    <MapLegend />
-
     <gmap-map
       ref="gmap"
       :center="center"
@@ -47,11 +45,10 @@
 </template>
 
 <script>
-import MapLegend from '@/components/MapLegend';
 
 export default {
   name: 'GoogleMap',
-  components: {MapLegend},
+  components: {},
   props: {
     closestMarkerIndex: {
       type: Number,

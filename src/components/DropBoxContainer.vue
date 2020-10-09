@@ -3,6 +3,9 @@
     <div v-if="locations && locations.length">
       <h3>Ballot Drop Locations in {{ county_name }}</h3>
 
+      <!-- only show the map legend if the user's location is known and there is a "closestMarker" -->
+      <MapLegend v-if="currentPosition && closestMarkerIndex > -1" />
+
       <GoogleMap
         id="map"
         v-if="locations"
@@ -45,9 +48,10 @@ import { gmapApi } from 'vue2-google-maps';
 import { airtable } from '@/airtable';
 import LocationTable from '@/components/LocationTable';
 import GoogleMap from "@/components/Map";
+import MapLegend from "@/components/MapLegend";
 
 export default {
-  components: {GoogleMap, LocationTable},
+  components: {GoogleMap, LocationTable, MapLegend},
   name: 'DropBoxContainer',
   props: {
     county_fips: String,
