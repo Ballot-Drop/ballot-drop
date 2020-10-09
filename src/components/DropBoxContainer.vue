@@ -3,10 +3,16 @@
     <div v-if="locations && locations.length">
       <h3>Ballot Drop Locations in {{ county_name }}</h3>
 
+      <!-- only show the map legend if the user's location is known and there is a "closestMarker" -->
+      <MapLegend v-if="currentPosition && closestMarkerIndex > -1" />
+
       <GoogleMap
         id="map"
         v-if="locations"
+        :closestMarkerIndex="closestMarkerIndex"
+        :currentPosition="currentPosition"
         :locations="locations"
+        @findNearestMarker="findClosestMarker"
       />
 
       <b-form-group
@@ -29,59 +35,23 @@
         </b-input-group>
       </b-form-group>
 
-      <b-table
-        :items="locations"
-        :fields="fields"
+      <LocationTable
         :filter="filter"
-        :filter-included-fields="filterOn"
-        empty-text="Ballot drop off locations coming soon!"
-        empty-filtered-text="No locations match that search term"
-        hover
-        responsive="sm"
-        show-empty
-        small
-        striped
-        text-left
-      >
-        <!-- show the empty-text if no locatiions -->
-        <template v-slot:empty="scope">
-          <h4 class="text-center">{{ scope.emptyText }}</h4>
-        </template>
-
-        <!-- show the empty-filtered-text if no locatiions match the search term-->
-        <template v-slot:emptyfiltered="scope">
-          <h4 class="text-center">{{ scope.emptyFilteredText }}</h4>
-        </template>
-
-        <!-- display the table when it has location data -->
-        <template v-slot:row-details="row">
-          <b-card>
-            <ul>
-              <li v-for="(value, key) in row.item" :key="key">{{ key }}: {{ value }}</li>
-            </ul>
-          </b-card>
-        </template>
-
-        <template #cell(Name)="data">
-          {{ titleCase(data.item.Name) }}
-        </template>
-        <template #cell(City)="data">
-          {{ titleCase(data.item.City) }}
-        </template>
-        <template #cell(Address)="data">
-          {{ titleCase(data.item.Address) }}
-        </template>
-      </b-table>
+        :locations="locations"
+      />
     </div>
   </div>
 </template>
 
 <script>
-import GoogleMap from "@/components/Map";
+import { gmapApi } from 'vue2-google-maps';
 import { airtable } from '@/airtable';
+import LocationTable from '@/components/LocationTable';
+import GoogleMap from "@/components/Map";
+import MapLegend from "@/components/MapLegend";
 
 export default {
-  components: {GoogleMap},
+  components: {GoogleMap, LocationTable, MapLegend},
   name: 'DropBoxContainer',
   props: {
     county_fips: String,
@@ -89,23 +59,82 @@ export default {
   },
   data: function() {
     return {
+      closestMarkerIndex: null,
+      currentPosition: null,
       locations: null,
       filter: null,
-      filterOn: ["City"],
-      fields: [
-        {
-          key: 'City',
-          label: 'City',
-          filterByFormatted: true,
-        },
-        { key: 'Name', label: 'Location Name' },
-        { key: 'Address', label: 'Address' },
-        { key: 'Zip', label: 'Zip' },
-        { key: 'Hours', label: 'Hours' },
-      ],
     }
   },
   methods: {
+    findClosestMarker() {
+      this.$nextTick(() => {
+        let gmaps = window.google?.maps || gmapApi()?.maps;
+
+        if (!gmaps) {
+          console.error("error loading the gmaps library: ", gmaps);
+          return;
+        }
+
+        if (!this.currentPosition || !this.currentPosition.lat || !this.currentPosition.lng) {
+          console.error("no currentPosition: ", this.currentPosition);
+          return;
+        }
+
+        if (!this.locations) {
+          return;
+        }
+
+        let currentPositionCoords = new gmaps.LatLng({
+          lat: this.currentPosition.lat,
+          lng: this.currentPosition.lng
+        });
+
+        let closestMarkerIndex = -1;
+        let closestDistance = Number.MAX_VALUE;
+
+        // compare the distance from the user's location to each of the dropboxes (markers)
+        for (let [index, loc] of this.locations.entries()) {
+          let locationCoords = new gmaps.LatLng({
+            lat: parseFloat(loc.lat),
+            lng: parseFloat(loc.lng),
+          });
+
+          let distance = gmaps.geometry.spherical.computeDistanceBetween(
+            currentPositionCoords,
+            locationCoords,
+          );
+
+          if (distance < closestDistance) {
+            closestMarkerIndex = index;
+            closestDistance = distance;
+          }
+        }
+
+        this.closestMarkerIndex = closestMarkerIndex;
+      });
+    },
+    getCurrentPosition() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            this.currentPosition = { 
+              lat: position.coords.latitude,
+              lng: position.coords.longitude,
+            }
+
+            // the user could consent to using their geolocation after the map and markers have already rendered.
+            // because of this, we need to call `findClosestMarker` after they give consent to use their geolocation
+            // so the map will rerender with the updated `closestMarkerIndex` and `currentPosition` props
+            // before calling the `findClosestMarker` function, make sure the google maps library is on the window (otherwise
+            // we won't be able to use the maps libarary to find the closest marker)
+            window.google && this.findClosestMarker();
+          }
+        );
+      } else {
+        // Browser doesn't support Geolocation
+        return;
+      }
+    },
     getData() {
       const locations = [];
 
@@ -129,12 +158,6 @@ export default {
 
       this.locations = locations;
     },
-    titleCase(str) {
-      if (str)
-        return str.toLowerCase().split(' ').map(function(word) {
-          return word.replace(word[0], word[0].toUpperCase());
-            }).join(' ');
-    }
   },
   watch: {
     county_fips: function() {
@@ -143,6 +166,8 @@ export default {
   },
   mounted() {
     this.getData();
+
+    this.getCurrentPosition();
   }
 }
 </script>
