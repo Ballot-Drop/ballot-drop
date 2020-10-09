@@ -6,7 +6,6 @@
         <source srcset="../assets/be_safe_and_vote.jpg" type="image/jpeg">
         <img src="../assets/be_safe_and_vote.jpg" alt="Be Safe and Vote">
       </picture>
-      <!-- <img alt="Be Safe and Vote" src="../assets/be_safe_and_vote.webp" class="img-fluid"> -->
       <h1>{{ msg }}</h1>
       <h2>Save Democracy!</h2>
     </div>
