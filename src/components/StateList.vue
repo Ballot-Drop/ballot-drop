@@ -3,7 +3,7 @@
     <div class="text-center">
       Worried about the post office delivering your ballot on time?<br />
       Pick your state:
-      <select v-model=selectedState @change="getCountyData()">
+      <select v-model=selectedState @change="getCountyData()" class="select">
         <option
           v-for="(state, index) in states"
           :key="index"
@@ -128,5 +128,8 @@ export default {
 </script>
 
 <style scoped>
+.select {
+  min-width: 150px;
+}
 
 </style>
