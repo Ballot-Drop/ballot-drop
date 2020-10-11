@@ -50,17 +50,19 @@
 </template>
 
 
-<style scoped>
+<style lang="scss" scoped>
   h3 {
     margin-top: 25px;
   }
-  .about .social {
-    text-align: center;
-  }
-  .about img {
-    width: 50px;
-    display: block;
-    margin: auto;
+  .about {
+    .social {
+      text-align: center;
+    }
+    img {
+      width: 50px;
+      display: block;
+      margin: auto;
+    }
   }
 
 </style>

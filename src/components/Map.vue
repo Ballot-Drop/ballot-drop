@@ -1,32 +1,42 @@
-
 <template>
   <div>
     <gmap-map
-        ref="gmap"
-        :center="center"
-        :zoom="12"
-        style="width:100%;  height: 100vh;"
-        @click="closeInfoWindows()"
+      ref="gmap"
+      :center="center"
+      :zoom="12"
+      style="width:100%;  height: 100vh;"
+      @click="closeInfoWindows()"
     >
+      <!-- this marker will show the closest marker to the user's location if known -->
+      <gmap-marker
+        key="closestLocation"
+        v-if="closestLocation"
+        :position="{lat: parseFloat(closestLocation.lat), lng: parseFloat(closestLocation.lng)}"
+        :icon="closestMarkerIcon"
+        @click="toggleInfoWindow(closestLocation, closestMarkerIndex)"
+      />
 
       <gmap-marker
-          :key="index"
-          v-for="(m, index) in locations"
-          :position="{lat: parseFloat(m.lat), lng: parseFloat(m.lng)}"
-          @click="toggleInfoWindow(m,index)">
-      </gmap-marker>
+        :key="index"
+        :position="{lat: parseFloat(loc.lat), lng: parseFloat(loc.lng)}"
+        v-for="(loc, index) in otherLocations"
+        @click="toggleInfoWindow(loc, index)"
+        :icon="regularMarkerIcon"
+      />
+
+      <!-- this marker will show the user's location on the map (if the location is know and it fits in the map's bounds) -->
       <gmap-marker
-          key="currentPosition"
-          v-if="currentPosition"
-          :position="{lat: parseFloat(currentPosition.lat), lng: parseFloat(currentPosition.lng)}"
-          :icon="currentPositionIcon">
-      </gmap-marker>
+        key="currentPosition"
+        v-if="currentPosition"
+        :position="{lat: parseFloat(currentPosition.lat), lng: parseFloat(currentPosition.lng)}"
+        :icon="currentPositionIcon"
+      />
 
       <gmap-info-window
-          :options="infoOptions"
-          :position="infoWindowPos"
-          :opened="infoWinOpen"
-          @closeclick="infoWinOpen=false"
+        :options="infoOptions"
+        :position="infoWindowPos"
+        :opened="infoWinOpen"
+        @closeclick="infoWinOpen=false"
       >
         <div v-html="infoContent"></div>
       </gmap-info-window>
@@ -36,21 +46,23 @@
 
 <script>
 
-
-
 export default {
   name: 'GoogleMap',
+  components: {},
   props: {
-    // county_fips: String,
+    closestMarkerIndex: {
+      type: Number,
+    },
+    currentPosition: {
+      type: Object,
+    },
     locations: {
       type: Array,
       required: true
-    }
+    },
   },
-  data: function(){
+  data: function() {
     return {
-      // locations: null,
-
       //a default center for the map
       center: {lat: 39.7392, lng: -104.9903},
       map: null,
@@ -68,8 +80,9 @@ export default {
           height: -35
         }
       },
-      currentPosition: null,
-      currentPositionIcon: { url: require("../assets/current_location.png")}
+      closestMarkerIcon: { url: require("@/assets/blue-dot.png") },
+      currentPositionIcon: { url: require("@/assets/green-dot.png") },
+      regularMarkerIcon: { url: require("@/assets/red-dot.png") },
     }
   },
   methods: {
@@ -77,8 +90,7 @@ export default {
       this.infoWindowPos = {lat: parseFloat(marker.lat), lng: parseFloat(marker.lng)};
       this.infoContent = this.getInfoWindowContent(marker);
 
-
-      //check if its the same marker that was selected if yes toggle
+      //check if it's the same marker that was selected. if yes, toggle
       if (this.currentMidx == idx) {
         this.infoWinOpen = !this.infoWinOpen;
       }
@@ -88,20 +100,6 @@ export default {
         this.currentMidx = idx;
       }
     },
-    getCurrentPosition() {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-          (position) => {
-            this.currentPosition = { lat: position.coords.latitude,
-              lng: position.coords.longitude, }
-          }
-        );
-      } else {
-        // Browser doesn't support Geolocation
-        return;
-      }
-    },
-
     getInfoWindowContent: function(marker) {
       let directions = [
         marker.Address.replaceAll(" ", "+"),
@@ -136,7 +134,22 @@ export default {
       this.infoWinOpen = false;
     }
   },
-
+  computed: {
+    closestLocation: function() {
+      if (this.locations.length && this.closestMarkerIndex > -1) {
+        return this.locations[this.closestMarkerIndex];
+      }
+      return null;
+    },
+    otherLocations: function() {
+      // this is for all locations that are not the closest one to the user's geolocation
+      if (this.closestMarkerIndex > -1) {
+        return this.locations.filter((loc, i) => i !== this.closestMarkerIndex);
+      }
+      // there was not a closest location, so return all locations
+      return this.locations;
+    },
+  },
   mounted() {
     this.$refs.gmap.$mapPromise.then((map) => {
       const bounds = new window.google.maps.LatLngBounds()
@@ -146,19 +159,19 @@ export default {
       map.fitBounds(bounds);
 
       // Deal with zoom delay on load
-      setTimeout(function(){
-        if (map.getZoom() > 18 ) map.setZoom(16);
-      },
-        100
-      );
+      setTimeout(function() {
+        if (map.getZoom() > 18) {
+          map.setZoom(16);
+        }
+      }, 100);
 
+      // any time the map is (re)rendered, emit the `findNearestMarker` event to find the nearest marker
+      this.$emit("findNearestMarker");
     });
-    this.getCurrentPosition()
   }
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 
 </style>
