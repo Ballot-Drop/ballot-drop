@@ -2,7 +2,7 @@
   <div>
     <h2 class="bg-dark text-light text-center">Ballot information for {{state["State/Territory"]}}</h2>
     <span class="info-section">
-      <QA
+      <QuestionAnswer
         v-for="(question, index) in questions"
         v-bind:key="index"
         :question=question.q
@@ -16,12 +16,12 @@
 </template>
 
 <script>
-import QA from "@/components/QA";
+import QuestionAnswer from "@/components/QuestionAnswer";
 import CountyInfo from "@/components/CountyInfo";
 
 export default {
   name: 'StateData',
-  components: {QA, CountyInfo},
+  components: {QuestionAnswer, CountyInfo},
   props: {
     state: {
       type: Object,

@@ -21,6 +21,7 @@
         :position="{lat: parseFloat(loc.lat), lng: parseFloat(loc.lng)}"
         v-for="(loc, index) in otherLocations"
         @click="toggleInfoWindow(loc, index)"
+        :icon="regularMarkerIcon"
       />
 
       <!-- this marker will show the user's location on the map (if the location is known and it fits in the map's bounds) -->
@@ -47,6 +48,7 @@
 
 export default {
   name: 'GoogleMap',
+  components: {},
   props: {
     closestMarkerIndex: {
       type: Number,
@@ -79,7 +81,8 @@ export default {
         }
       },
       closestMarkerIcon: { url: require("@/assets/blue-dot.png") },
-      currentPositionIcon: { url: require("@/assets/current_location.png") },
+      currentPositionIcon: { url: require("@/assets/green-dot.png") },
+      regularMarkerIcon: { url: require("@/assets/red-dot.png") },
     }
   },
   methods: {

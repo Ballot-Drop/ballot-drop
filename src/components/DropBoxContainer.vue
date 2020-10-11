@@ -18,6 +18,9 @@
         </b-input-group>
       </b-form-group>
 
+      <!-- only show the map legend if the user's location is known and there is a "closestMarker" -->
+      <MapLegend v-if="currentPosition && closestMarkerIndex > -1" />
+
       <GoogleMap
         id="map"
         v-if="locations"
@@ -60,9 +63,10 @@ import { gmapApi } from 'vue2-google-maps';
 import { airtable } from '@/airtable';
 import LocationTable from '@/components/LocationTable';
 import GoogleMap from "@/components/Map";
+import MapLegend from "@/components/MapLegend";
 
 export default {
-  components: {GoogleMap, LocationTable},
+  components: {GoogleMap, LocationTable, MapLegend},
   name: 'DropBoxContainer',
   props: {
     county_fips: String,
@@ -79,7 +83,7 @@ export default {
   methods: {
     findClosestMarker() {
       this.$nextTick(() => {
-        let gmaps = gmapApi()?.maps;
+        let gmaps = window.google?.maps || gmapApi()?.maps;
 
         if (!gmaps) {
           console.error("error loading the gmaps library: ", gmaps);
@@ -136,7 +140,9 @@ export default {
             // the user could consent to using their geolocation after the map and markers have already rendered.
             // because of this, we need to call `findClosestMarker` after they give consent to use their geolocation
             // so the map will rerender with the updated `closestMarkerIndex` and `currentPosition` props
-            this.findClosestMarker();
+            // before calling the `findClosestMarker` function, make sure the google maps library is on the window (otherwise
+            // we won't be able to use the maps libarary to find the closest marker)
+            window.google && this.findClosestMarker();
           }
         );
       } else {

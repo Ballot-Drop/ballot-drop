@@ -11,7 +11,7 @@
 
 <script>
 export default {
-  name: 'QA',
+  name: 'QuestionAnswer',
   props: {
     question: String,
     answer: String,
