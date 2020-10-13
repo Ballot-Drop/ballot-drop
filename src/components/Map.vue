@@ -24,7 +24,7 @@
         :icon="regularMarkerIcon"
       />
 
-      <!-- this marker will show the user's location on the map (if the location is know and it fits in the map's bounds) -->
+      <!-- this marker will show the user's location on the map (if the location is known and it fits in the map's bounds) -->
       <gmap-marker
         key="currentPosition"
         v-if="currentPosition"

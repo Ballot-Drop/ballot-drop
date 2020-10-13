@@ -3,6 +3,21 @@
     <div v-if="locations && locations.length">
       <h3>Ballot Drop Locations in {{ county_name }}</h3>
 
+      <b-form-group
+        label="Enter your address"
+        label-size="md"
+        label-cols="auto"
+        class="mb-2 mt-4"
+      >
+        <b-input-group size="md">
+          <GmapAutocomplete
+            @place_changed="setPlace"
+            class="form-control"
+            :options="{ fields: ['geometry', 'formatted_address', 'address_components'] }"
+          />
+        </b-input-group>
+      </b-form-group>
+
       <!-- only show the map legend if the user's location is known and there is a "closestMarker" -->
       <MapLegend v-if="currentPosition && closestMarkerIndex > -1" />
 
@@ -157,6 +172,16 @@ export default {
         });
 
       this.locations = locations;
+    },
+    setPlace(place) {
+      // set the place and the currentPosition coordinates
+      this.currentPosition = {
+        lat: place.geometry.location.lat(),
+        lng: place.geometry.location.lng(),
+      }
+
+      // find the new closest marker to the address the user entered
+      this.findClosestMarker();
     },
   },
   watch: {
