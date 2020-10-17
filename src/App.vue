@@ -1,9 +1,18 @@
 <template>
   <div id="app" ref="main_app" class="container">
     <div id="nav" class="text-center">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link> |
-      <router-link to="/contact">Contact</router-link>
+      <div>
+        <b-nav tabs>
+            <b-nav-item active><router-link to="/">Home</router-link></b-nav-item>
+            <b-nav-item><router-link to="/about">About</router-link></b-nav-item>
+            <b-nav-item ><router-link to="/contact">Contact</router-link></b-nav-item>
+        </b-nav>
+        <picture>
+            <source srcset="./assets/bd_logo.webp" type="image/webp">
+            <source srcset="./assets/bd_logo.jpg" type="image/jpeg">
+            <b-img src="./assets/bd_logo.jpg" fluid alt="Be Safe and Vote"></b-img>
+        </picture>
+      </div>
     </div>
     <router-view/>
     <div id="flag" class="fixed-bottom"
